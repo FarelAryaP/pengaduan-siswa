@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('judul');
             $table->text('isi_laporan');
             $table->string('foto')->nullable();
-            $table->enum('status', ['menunggu', 'proses', 'selesai']);
+            $table->string('status');
             $table->date('tanggal_lapor');
-            $table->timestamps(); // created_at dan updated_at
+            $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
