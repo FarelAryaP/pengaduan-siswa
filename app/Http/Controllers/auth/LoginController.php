@@ -25,7 +25,12 @@ class LoginController extends Controller
         $user = User::where('username', $request->username)->first();
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
-            return redirect()->route('dashboard');
+            // Redirect berdasarkan role
+            if ($user->role === 'admin') {
+                return redirect()->route('dashboard.admin');
+            } else {
+                return redirect()->route('dashboard.user');
+            }
         }
         return back()->with('error', 'Username atau password salah');
     }
