@@ -40,4 +40,10 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    // Relasi ke Pengaduan
+    public function pengaduan()
+    {
+        return $this->hasMany(Pengaduan::class, 'id_user');
+    }
 }
