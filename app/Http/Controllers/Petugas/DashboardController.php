@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Petugas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pengaduan;
@@ -23,6 +23,6 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recentPengaduan'));
+        return view('petugas.dashboard', compact('stats', 'recentPengaduan'));
     }
 }

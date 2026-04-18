@@ -31,6 +31,6 @@ class RegisterController extends Controller
 
         // Auto login setelah register
         auth()->login($user);
-        return redirect()->route('dashboard.user');
+        return redirect()->route('user.dashboard')->with('success', 'Registrasi berhasil! Selamat datang, ' . $user->nama);
     }
 }

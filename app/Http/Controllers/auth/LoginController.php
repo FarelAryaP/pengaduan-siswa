@@ -30,8 +30,8 @@ class LoginController extends Controller
             $request->session()->regenerate();
             
             // Redirect berdasarkan role
-            if ($user->role === 'admin') {
-                return redirect()->intended(route('admin.dashboard'));
+            if ($user->role === 'petugas') {
+                return redirect()->intended(route('petugas.dashboard'));
             } else {
                 return redirect()->intended(route('user.dashboard'));
             }

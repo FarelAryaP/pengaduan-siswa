@@ -13,7 +13,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('admin.pengaduan.index') }}" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <a href="{{ route('petugas.pengaduan.index') }}" class="flex items-center gap-3 hover:opacity-80 transition">
                         <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary to-blue-600 rounded-xl shadow-md">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -135,7 +135,7 @@
                         Update Status
                     </h3>
 
-                    <form action="{{ route('admin.pengaduan.updateStatus', $pengaduan->id) }}" method="POST" class="space-y-4">
+                    <form action="{{ route('petugas.pengaduan.updateStatus', $pengaduan->id) }}" method="POST" class="space-y-4">
                         @csrf
                         @method('PATCH')
 
@@ -257,13 +257,13 @@
                 <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Aksi</h3>
                     <div class="space-y-3">
-                        <a href="{{ route('admin.pengaduan.index') }}" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                        <a href="{{ route('petugas.pengaduan.index') }}" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                             </svg>
                             <span>Kembali</span>
                         </a>
-                        <form action="{{ route('admin.pengaduan.destroy', $pengaduan->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengaduan ini? Tindakan ini tidak dapat dibatalkan.')">
+                        <form action="{{ route('petugas.pengaduan.destroy', $pengaduan->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengaduan ini? Tindakan ini tidak dapat dibatalkan.')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-semibold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">

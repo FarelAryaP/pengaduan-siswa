@@ -6,16 +6,16 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\PengaduanController as UserPengaduanController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\PengaduanController as AdminPengaduanController;
+use App\Http\Controllers\Petugas\DashboardController as PetugasDashboardController;
+use App\Http\Controllers\Petugas\PengaduanController as PetugasPengaduanController;
 
 // ============================================
 // ROOT — Redirect berdasarkan status login
 // ============================================
 Route::get('/', function () {
     if (Auth::check()) {
-        return Auth::user()->role === 'admin'
-            ? redirect()->route('admin.dashboard')
+        return Auth::user()->role === 'petugas'
+            ? redirect()->route('petugas.dashboard')
             : redirect()->route('user.dashboard');
     }
     return redirect()->route('login');
@@ -59,23 +59,23 @@ Route::middleware(['auth', 'role:user'])
     });
 
 // ============================================
-// ADMIN ROUTES  (role: admin)
+// ADMIN ROUTES  (role: petugas)
 // ============================================
-Route::middleware(['auth', 'role:admin'])
-    ->prefix('admin')
-    ->name('admin.')
+Route::middleware(['auth', 'role:petugas'])
+    ->prefix('petugas')
+    ->name('petugas.')
     ->group(function () {
 
-        // Dashboard → admin.dashboard
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+        // Dashboard → petugas.dashboard
+        Route::get('/dashboard', [PetugasDashboardController::class, 'index'])
             ->name('dashboard');
 
-        // Pengaduan Management → admin.pengaduan.*
+        // Pengaduan Management → petugas.pengaduan.*
         Route::prefix('pengaduan')->name('pengaduan.')->group(function () {
-            Route::get('/',                [AdminPengaduanController::class, 'index'])       ->name('index');
-            Route::get('/{id}',            [AdminPengaduanController::class, 'show'])        ->name('show');
-            Route::patch('/{id}/status',   [AdminPengaduanController::class, 'updateStatus'])->name('updateStatus');
-            Route::delete('/{id}',         [AdminPengaduanController::class, 'destroy'])     ->name('destroy');
+            Route::get('/',                [PetugasPengaduanController::class, 'index'])       ->name('index');
+            Route::get('/{id}',            [PetugasPengaduanController::class, 'show'])        ->name('show');
+            Route::patch('/{id}/status',   [PetugasPengaduanController::class, 'updateStatus'])->name('updateStatus');
+            Route::delete('/{id}',         [PetugasPengaduanController::class, 'destroy'])     ->name('destroy');
         });
     });
 
@@ -83,4 +83,4 @@ Route::middleware(['auth', 'role:admin'])
 // LEGACY REDIRECTS (backward compatibility)
 // ============================================
 Route::get('/dashboard/user',  fn () => redirect()->route('user.dashboard'));
-Route::get('/dashboard/admin', fn () => redirect()->route('admin.dashboard'));
+Route::get('/dashboard/petugas', fn () => redirect()->route('petugas.dashboard'));

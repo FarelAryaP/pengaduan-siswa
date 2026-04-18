@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Petugas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pengaduan;
@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class PengaduanController extends Controller
 {
-    // Tampilkan semua pengaduan untuk admin
+    // Tampilkan semua pengaduan untuk petugas
     public function index(Request $request)
     {
         $status = $request->get('status', 'all');
@@ -29,14 +29,14 @@ class PengaduanController extends Controller
             'selesai' => Pengaduan::where('status', 'selesai')->count(),
         ];
 
-        return view('admin.pengaduan.index', compact('pengaduanList', 'stats', 'status'));
+        return view('petugas.pengaduan.index', compact('pengaduanList', 'stats', 'status'));
     }
 
     // Tampilkan detail pengaduan
     public function show($id)
     {
         $pengaduan = Pengaduan::with('user')->findOrFail($id);
-        return view('admin.pengaduan.show', compact('pengaduan'));
+        return view('petugas.pengaduan.show', compact('pengaduan'));
     }
 
     // Update status pengaduan
@@ -53,7 +53,7 @@ class PengaduanController extends Controller
         return redirect()->back()->with('success', 'Status pengaduan berhasil diupdate!');
     }
 
-    // Hapus pengaduan (admin bisa hapus semua)
+    // Hapus pengaduan (petugas bisa hapus semua)
     public function destroy($id)
     {
         $pengaduan = Pengaduan::findOrFail($id);
@@ -65,6 +65,6 @@ class PengaduanController extends Controller
 
         $pengaduan->delete();
 
-        return redirect()->route('admin.pengaduan.index')->with('success', 'Pengaduan berhasil dihapus.');
+        return redirect()->route('petugas.pengaduan.index')->with('success', 'Pengaduan berhasil dihapus.');
     }
 }

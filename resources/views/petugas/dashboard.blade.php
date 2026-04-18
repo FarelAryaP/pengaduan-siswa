@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - Sistem Pengaduan</title>
+    <title>Dashboard Petugas - Sistem Pengaduan</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
 </head>
@@ -19,12 +19,12 @@
                         </svg>
                     </div>
                     <div>
-                        <h1 class="text-lg font-bold text-gray-800">Dashboard Admin</h1>
+                        <h1 class="text-lg font-bold text-gray-800">Dashboard Petugas</h1>
                         <p class="text-xs text-gray-500">Sistem Pengaduan</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('admin.pengaduan.index') }}" class="hidden sm:flex items-center gap-2 px-4 py-2 bg-blue-50 text-primary rounded-xl font-medium hover:bg-blue-100 transition-all duration-200">
+                    <a href="{{ route('petugas.pengaduan.index') }}" class="hidden sm:flex items-center gap-2 px-4 py-2 bg-blue-50 text-primary rounded-xl font-medium hover:bg-blue-100 transition-all duration-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
@@ -32,7 +32,7 @@
                     </a>
                     <div class="hidden sm:block text-right">
                         <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->nama ?? Auth::user()->username }}</p>
-                        <p class="text-xs text-gray-500">Administrator</p>
+                        <p class="text-xs text-gray-500">Petugas</p>
                     </div>
                     <form action="{{ route('logout') }}" method="POST" class="m-0">
                         @csrf
@@ -60,7 +60,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                     </svg>
                     <div>
-                        <h2 class="text-3xl md:text-4xl font-bold">Selamat Datang, Admin!</h2>
+                        <h2 class="text-3xl md:text-4xl font-bold">Selamat Datang, Petugas!</h2>
                         <p class="text-indigo-100 text-lg mt-1">{{ Auth::user()->nama ?? Auth::user()->username }}</p>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                     </svg>
                     Pengaduan Terbaru
                 </h3>
-                <a href="{{ route('admin.pengaduan.index') }}" class="text-primary hover:text-blue-700 font-medium text-sm flex items-center gap-1">
+                <a href="{{ route('petugas.pengaduan.index') }}" class="text-primary hover:text-blue-700 font-medium text-sm flex items-center gap-1">
                     Lihat Semua
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -180,7 +180,7 @@
                                 <p class="text-sm text-gray-600">Oleh: {{ $pengaduan->user->nama ?? $pengaduan->user->username }}</p>
                                 <p class="text-xs text-gray-400 mt-1">{{ $pengaduan->created_at->diffForHumans() }}</p>
                             </div>
-                            <a href="{{ route('admin.pengaduan.show', $pengaduan->id) }}" class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm">
+                            <a href="{{ route('petugas.pengaduan.show', $pengaduan->id) }}" class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm">
                                 Detail
                             </a>
                         </div>

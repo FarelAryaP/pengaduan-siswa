@@ -13,7 +13,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <a href="{{ route('petugas.dashboard') }}" class="flex items-center gap-3 hover:opacity-80 transition">
                         <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary to-blue-600 rounded-xl shadow-md">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -127,16 +127,16 @@
         <!-- Filter Tabs -->
         <div class="bg-white rounded-2xl shadow-lg border border-gray-100 mb-6">
             <div class="flex flex-wrap gap-2 p-4">
-                <a href="{{ route('admin.pengaduan.index') }}" class="px-4 py-2 rounded-lg font-medium transition-all {{ $status === 'all' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                <a href="{{ route('petugas.pengaduan.index') }}" class="px-4 py-2 rounded-lg font-medium transition-all {{ $status === 'all' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
                     Semua ({{ $stats['total'] }})
                 </a>
-                <a href="{{ route('admin.pengaduan.index', ['status' => 'pending']) }}" class="px-4 py-2 rounded-lg font-medium transition-all {{ $status === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                <a href="{{ route('petugas.pengaduan.index', ['status' => 'pending']) }}" class="px-4 py-2 rounded-lg font-medium transition-all {{ $status === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
                     Pending ({{ $stats['pending'] }})
                 </a>
-                <a href="{{ route('admin.pengaduan.index', ['status' => 'proses']) }}" class="px-4 py-2 rounded-lg font-medium transition-all {{ $status === 'proses' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                <a href="{{ route('petugas.pengaduan.index', ['status' => 'proses']) }}" class="px-4 py-2 rounded-lg font-medium transition-all {{ $status === 'proses' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
                     Proses ({{ $stats['proses'] }})
                 </a>
-                <a href="{{ route('admin.pengaduan.index', ['status' => 'selesai']) }}" class="px-4 py-2 rounded-lg font-medium transition-all {{ $status === 'selesai' ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                <a href="{{ route('petugas.pengaduan.index', ['status' => 'selesai']) }}" class="px-4 py-2 rounded-lg font-medium transition-all {{ $status === 'selesai' ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
                     Selesai ({{ $stats['selesai'] }})
                 </a>
             </div>
@@ -202,14 +202,14 @@
                                 </div>
                                 
                                 <div class="flex items-center gap-2">
-                                    <a href="{{ route('admin.pengaduan.show', $pengaduan->id) }}" class="px-4 py-2 bg-blue-50 text-primary rounded-lg font-medium hover:bg-blue-100 transition-colors text-sm flex items-center gap-2">
+                                    <a href="{{ route('petugas.pengaduan.show', $pengaduan->id) }}" class="px-4 py-2 bg-blue-50 text-primary rounded-lg font-medium hover:bg-blue-100 transition-colors text-sm flex items-center gap-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                         </svg>
                                         Detail
                                     </a>
-                                    <form action="{{ route('admin.pengaduan.destroy', $pengaduan->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengaduan ini?')">
+                                    <form action="{{ route('petugas.pengaduan.destroy', $pengaduan->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengaduan ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors text-sm flex items-center gap-2">
