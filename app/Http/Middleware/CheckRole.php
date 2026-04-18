@@ -21,7 +21,12 @@ class CheckRole
         }
 
         if (Auth::user()->role !== $role) {
-            return redirect()->route('login')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            // Redirect ke dashboard sesuai role user, bukan ke login
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
+            } else {
+                return redirect()->route('user.dashboard')->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
+            }
         }
 
         return $next($request);
