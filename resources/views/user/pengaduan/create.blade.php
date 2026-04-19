@@ -1,240 +1,221 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buat Pengaduan - Sistem Pengaduan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Buat Pengaduan — Suara Siswa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
+    <style>
+        :root {
+            --brand: #1A56DB; --brand-dark: #1341AB; --brand-light: #EBF2FF;
+            --surface: #FFFFFF; --surface-2: #F8FAFF; --border: #E2E8F0;
+            --text-1: #0F172A; --text-2: #475569; --text-3: #94A3B8;
+            --radius: 16px; --radius-sm: 10px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: #F4F7FF; color: var(--text-1); min-height: 100vh; }
+        nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); }
+        .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .brand-icon { width: 36px; height: 36px; background: var(--brand); border-radius: 10px; display: grid; place-items: center; }
+        .brand-name { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 600; color: var(--text-1); }
+        .nav-links { display: flex; align-items: center; gap: 4px; }
+        .nav-link { padding: 7px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; color: var(--text-2); }
+        .nav-link:hover { background: var(--brand-light); color: var(--brand); }
+        .btn-nav { padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; background: var(--brand); color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; margin-left: 8px; border: none; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+        .user-area { display: flex; align-items: center; gap: 12px; }
+        .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--brand-light); display: grid; place-items: center; font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; color: var(--brand); }
+        .btn-logout { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; color: #64748B; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        main { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+        /* Breadcrumb */
+        .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--text-3); margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--brand); text-decoration: none; }
+        .breadcrumb svg { width: 14px; height: 14px; }
+        /* Form card */
+        .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+        .form-card-header { padding: 2rem 2rem 1.5rem; border-bottom: 1px solid var(--border); }
+        .form-card-title { font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.4px; margin-bottom: 5px; }
+        .form-card-sub { font-size: 14px; color: var(--text-2); }
+        .form-body { padding: 1.75rem 2rem; }
+        /* Fields */
+        .field { margin-bottom: 1.5rem; }
+        .field label { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 8px; }
+        .label-req { color: #EF4444; font-size: 12px; }
+        .label-opt { font-size: 12px; color: var(--text-3); font-weight: 400; }
+        .field input, .field textarea {
+            width: 100%; padding: 11px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; color: var(--text-1);
+            background: var(--surface-2); outline: none;
+            transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+        }
+        .field input:focus, .field textarea:focus {
+            border-color: var(--brand);
+            background: var(--surface);
+            box-shadow: 0 0 0 3px rgba(26,86,219,0.08);
+        }
+        .field input::placeholder, .field textarea::placeholder { color: var(--text-3); }
+        .field textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+        .field-hint { font-size: 12.5px; color: var(--text-3); margin-top: 6px; }
+        /* File upload */
+        .upload-zone {
+            border: 2px dashed var(--border); border-radius: var(--radius-sm);
+            background: var(--surface-2); transition: all 0.15s;
+            cursor: pointer; overflow: hidden;
+        }
+        .upload-zone:hover, .upload-zone.dragover { border-color: var(--brand); background: var(--brand-light); }
+        .upload-placeholder { padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+        .upload-icon { width: 44px; height: 44px; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; display: grid; place-items: center; }
+        .upload-icon svg { width: 20px; height: 20px; color: var(--text-3); }
+        .upload-text { font-size: 14px; font-weight: 500; color: var(--text-1); }
+        .upload-text span { color: var(--brand); }
+        .upload-sub { font-size: 12.5px; color: var(--text-3); }
+        #preview-img { width: 100%; max-height: 240px; object-fit: contain; padding: 1rem; display: none; }
+        /* Divider */
+        .form-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+        /* Info box */
+        .info-box { background: #F0F7FF; border: 1px solid #BFDBFE; border-radius: var(--radius-sm); padding: 1rem 1.25rem; display: flex; gap: 12px; margin-bottom: 1.5rem; }
+        .info-box svg { width: 18px; height: 18px; color: var(--brand); flex-shrink: 0; margin-top: 1px; }
+        .info-box ul { padding-left: 16px; }
+        .info-box li { font-size: 13.5px; color: #1D4ED8; line-height: 1.6; }
+        /* Buttons */
+        .form-actions { display: flex; gap: 12px; align-items: center; }
+        .btn-submit { flex: 1; height: 50px; background: var(--brand); color: #fff; border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s, transform 0.1s; }
+        .btn-submit:hover { background: var(--brand-dark); }
+        .btn-submit:active { transform: scale(0.99); }
+        .btn-cancel { padding: 0 24px; height: 50px; background: var(--surface-2); color: var(--text-2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.15s; }
+        .btn-cancel:hover { border-color: #CBD5E1; background: #EEF2FF; }
+        /* Alert */
+        .alert-error { background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C; border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13.5px; margin-bottom: 1.5rem; }
+        .alert-error ul { padding-left: 16px; }
+        @media (max-width: 768px) { .nav-links { display: none; } main { padding: 2rem 1rem; } .form-body { padding: 1.25rem; } .form-card-header { padding: 1.25rem; } }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen font-inter antialiased">
-    <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('user.dashboard') }}" class="flex items-center gap-3 hover:opacity-80 transition">
-                        <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary to-blue-600 rounded-xl shadow-md">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h1 class="text-lg font-bold text-gray-800">Buat Pengaduan</h1>
-                            <p class="text-xs text-gray-500">Sampaikan keluhan Anda</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="flex items-center gap-4">
-                    <div class="hidden sm:block text-right">
-                        <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->nama ?? Auth::user()->username }}</p>
-                        <p class="text-xs text-gray-500">User</p>
-                    </div>
-                </div>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="{{ route('user.dashboard') }}" class="brand">
+                <div class="brand-icon"><svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg></div>
+                <span class="brand-name">Suara Siswa</span>
+            </a>
+            <div class="nav-links">
+                <a href="{{ route('user.dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ route('user.pengaduan.index') }}" class="nav-link">Pengaduan Saya</a>
+            </div>
+            <div class="user-area">
+                <div class="avatar">{{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->username, 0, 1)) }}</div>
+                <form action="{{ route('logout') }}" method="POST" style="margin:0;">
+                    @csrf
+                    <button type="submit" class="btn-logout"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7"/></svg>Keluar</button>
+                </form>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 md:p-10">
-            <!-- Header -->
-            <div class="mb-8">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-xl">
-                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-800">Form Pengaduan Baru</h2>
-                        <p class="text-gray-500 text-sm">Isi form di bawah dengan lengkap dan jelas</p>
-                    </div>
-                </div>
-            </div>
+    <main>
+        <div class="breadcrumb">
+            <a href="{{ route('user.dashboard') }}">Dashboard</a>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <a href="{{ route('user.pengaduan.index') }}">Pengaduan Saya</a>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <span>Buat Pengaduan</span>
+        </div>
 
-            <!-- Alert Errors -->
-            @if($errors->any())
-                <div class="mb-6 bg-red-50 border-l-4 border-red-500 rounded-lg px-4 py-3 text-sm">
-                    <div class="flex items-start gap-3">
-                        <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                        </svg>
-                        <div class="text-red-700">
-                            @foreach($errors->all() as $error)
-                                <div class="mb-1 last:mb-0">{{ $error }}</div>
-                            @endforeach
+        <div class="form-card">
+            <div class="form-card-header">
+                <h1 class="form-card-title">📝 Buat Pengaduan Baru</h1>
+                <p class="form-card-sub">Isi form di bawah dengan detail yang jelas agar pengaduanmu bisa segera ditangani</p>
+            </div>
+            <div class="form-body">
+                @if($errors->any())
+                    <div class="alert-error"><ul>@foreach($errors->all() as $err)<li>{{ $err }}</li>@endforeach</ul></div>
+                @endif
+
+                <form method="POST" action="{{ route('user.pengaduan.store') }}" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="field">
+                        <label for="judul">Judul Pengaduan <span class="label-req">*</span></label>
+                        <input type="text" id="judul" name="judul" value="{{ old('judul') }}" maxlength="255" required placeholder="Contoh: Fasilitas toilet lantai 2 rusak dan bau">
+                        <p class="field-hint">Buat judul yang singkat dan menggambarkan inti masalah</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="isi_laporan">Detail Pengaduan <span class="label-req">*</span></label>
+                        <textarea id="isi_laporan" name="isi_laporan" required minlength="10" placeholder="Jelaskan masalah secara detail: kapan terjadi, di mana, apa dampaknya, siapa yang terlibat...">{{ old('isi_laporan') }}</textarea>
+                        <p class="field-hint">Minimal 10 karakter. Semakin detail, semakin cepat ditangani.</p>
+                    </div>
+
+                    <div class="field">
+                        <label for="foto">Foto Pendukung <span class="label-opt">(opsional)</span></label>
+                        <div class="upload-zone" id="dropzone" onclick="document.getElementById('foto').click()">
+                            <img id="preview-img" alt="Preview">
+                            <div class="upload-placeholder" id="upload-placeholder">
+                                <div class="upload-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div>
+                                <p class="upload-text"><span>Klik untuk upload</span> atau drag & drop</p>
+                                <p class="upload-sub">PNG, JPG, JPEG, GIF — Maks. 2MB</p>
+                            </div>
+                        </div>
+                        <input type="file" id="foto" name="foto" accept="image/jpeg,image/jpg,image/png,image/gif" style="display:none;" onchange="previewImage(event)">
+                        <p class="field-hint">Tambahkan foto untuk memperkuat pengaduanmu</p>
+                    </div>
+
+                    <hr class="form-divider">
+
+                    <div class="info-box">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <div>
+                            <ul>
+                                <li>Pastikan informasi yang kamu berikan akurat dan dapat dipertanggungjawabkan</li>
+                                <li>Pengaduan akan diproses maksimal 3×24 jam oleh petugas</li>
+                                <li>Pengaduan yang masih pending dapat dihapus sewaktu-waktu</li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-            @endif
 
-            <!-- Form -->
-            <form method="POST" action="{{ route('user.pengaduan.store') }}" enctype="multipart/form-data" class="space-y-6">
-                @csrf
-
-                <!-- Judul -->
-                <div class="group">
-                    <label for="judul" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Judul Pengaduan <span class="text-red-500">*</span>
-                    </label>
-                    <div class="relative">
-                        <input 
-                            type="text" 
-                            id="judul" 
-                            name="judul" 
-                            value="{{ old('judul') }}"
-                            required 
-                            maxlength="255"
-                            class="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all duration-200 text-gray-800 placeholder-gray-400" 
-                            placeholder="Contoh: Fasilitas toilet rusak di lantai 2"
-                        />
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                            Kirim Pengaduan
+                        </button>
+                        <a href="{{ route('user.pengaduan.index') }}" class="btn-cancel">
+                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            Batal
+                        </a>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">Buat judul yang singkat dan jelas</p>
-                </div>
-
-                <!-- Isi Laporan -->
-                <div class="group">
-                    <label for="isi_laporan" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Isi Laporan <span class="text-red-500">*</span>
-                    </label>
-                    <textarea 
-                        id="isi_laporan" 
-                        name="isi_laporan" 
-                        required 
-                        rows="6"
-                        minlength="10"
-                        class="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all duration-200 text-gray-800 placeholder-gray-400 resize-none" 
-                        placeholder="Jelaskan detail pengaduan Anda dengan lengkap..."
-                    >{{ old('isi_laporan') }}</textarea>
-                    <p class="text-xs text-gray-500 mt-1">Minimal 10 karakter. Jelaskan kronologi, lokasi, dan dampak yang terjadi</p>
-                </div>
-
-                <!-- Upload Foto -->
-                <div class="group">
-                    <label for="foto" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Foto Pendukung <span class="text-gray-500 font-normal">(Opsional)</span>
-                    </label>
-                    <div class="relative">
-                        <input 
-                            type="file" 
-                            id="foto" 
-                            name="foto" 
-                            accept="image/jpeg,image/jpg,image/png,image/gif"
-                            class="hidden"
-                            onchange="previewImage(event)"
-                        />
-                        <label 
-                            for="foto" 
-                            class="flex flex-col items-center justify-center w-full h-48 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-gray-100 hover:border-primary transition-all duration-200"
-                            id="dropzone"
-                        >
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6" id="upload-placeholder">
-                                <svg class="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                                </svg>
-                                <p class="mb-2 text-sm text-gray-600"><span class="font-semibold">Klik untuk upload</span> atau drag & drop</p>
-                                <p class="text-xs text-gray-500">PNG, JPG, JPEG, GIF (Max. 2MB)</p>
-                            </div>
-                            <img id="preview" class="hidden w-full h-full object-cover rounded-xl" alt="Preview">
-                        </label>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">Upload foto untuk memperkuat pengaduan Anda</p>
-                </div>
-
-                <!-- Info Box -->
-                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
-                    <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                    </svg>
-                    <div class="text-sm text-blue-800">
-                        <p class="font-semibold mb-1">Catatan Penting:</p>
-                        <ul class="list-disc list-inside space-y-1 text-blue-700">
-                            <li>Pastikan informasi yang Anda berikan akurat</li>
-                            <li>Pengaduan akan diproses maksimal 3x24 jam</li>
-                            <li>Anda akan mendapat notifikasi saat status berubah</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button 
-                        type="submit" 
-                        class="flex-1 bg-gradient-to-r from-primary to-blue-600 hover:from-blue-600 hover:to-primary text-white font-semibold py-3.5 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
-                    >
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                        </svg>
-                        <span>Kirim Pengaduan</span>
-                    </button>
-                    <a 
-                        href="{{ route('user.pengaduan.index') }}" 
-                        class="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3.5 px-8 rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
-                    >
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                        <span>Batal</span>
-                    </a>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </main>
 
     <script>
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('preview');
-            const placeholder = document.getElementById('upload-placeholder');
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
+        function previewImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const img = document.getElementById('preview-img');
+                const ph = document.getElementById('upload-placeholder');
+                img.src = ev.target.result;
+                img.style.display = 'block';
+                ph.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
         }
-
-        // Drag and drop functionality
-        const dropzone = document.getElementById('dropzone');
-        
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropzone.addEventListener(eventName, preventDefaults, false);
-        });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropzone.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropzone.addEventListener(eventName, unhighlight, false);
-        });
-
-        function highlight(e) {
-            dropzone.classList.add('border-primary', 'bg-blue-50');
-        }
-
-        function unhighlight(e) {
-            dropzone.classList.remove('border-primary', 'bg-blue-50');
-        }
-
-        dropzone.addEventListener('drop', handleDrop, false);
-
-        function handleDrop(e) {
+        const dz = document.getElementById('dropzone');
+        ['dragenter','dragover'].forEach(e => dz.addEventListener(e, ev => { ev.preventDefault(); dz.classList.add('dragover'); }));
+        ['dragleave','drop'].forEach(e => dz.addEventListener(e, ev => { ev.preventDefault(); dz.classList.remove('dragover'); }));
+        dz.addEventListener('drop', e => {
             const dt = e.dataTransfer;
-            const files = dt.files;
-            document.getElementById('foto').files = files;
-            previewImage({ target: { files: files } });
-        }
+            if (dt.files.length) {
+                document.getElementById('foto').files = dt.files;
+                previewImage({ target: { files: dt.files } });
+            }
+        });
     </script>
 </body>
 </html>

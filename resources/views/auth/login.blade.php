@@ -1,119 +1,352 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistem Pengaduan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Masuk — Suara Siswa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
+    <style>
+        :root {
+            --brand: #1A56DB;
+            --brand-dark: #1341AB;
+            --brand-light: #EBF2FF;
+            --surface: #FFFFFF;
+            --surface-2: #F5F7FA;
+            --border: #E2E8F0;
+            --text-1: #0F172A;
+            --text-2: #475569;
+            --text-3: #94A3B8;
+            --success: #059669;
+            --danger: #DC2626;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 4px 24px rgba(15,23,42,0.08), 0 1px 4px rgba(15,23,42,0.04);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #F0F4FF;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        /* Left panel */
+        .panel-left {
+            background: linear-gradient(145deg, #1A56DB 0%, #1E3A8A 60%, #0F172A 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .panel-left::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+        }
+        .panel-left::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; left: -60px;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.03);
+        }
+        .panel-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+        .brand-icon {
+            width: 44px; height: 44px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+        }
+        .brand-icon svg { width: 22px; height: 22px; color: #fff; }
+        .brand-name {
+            font-family: 'Sora', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.3px;
+        }
+        .hero-text {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-text h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            margin-bottom: 1.25rem;
+        }
+        .hero-text h1 span {
+            color: #93C5FD;
+        }
+        .hero-text p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.7;
+            max-width: 360px;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+        .stat {
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 1rem;
+        }
+        .stat-num {
+            font-family: 'Sora', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 2px;
+        }
+        /* Right panel */
+        .panel-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+        .form-card {
+            width: 100%;
+            max-width: 420px;
+        }
+        .form-header {
+            margin-bottom: 2rem;
+        }
+        .form-header h2 {
+            font-family: 'Sora', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-1);
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+        .form-header p {
+            font-size: 15px;
+            color: var(--text-2);
+        }
+        .alert-error {
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            color: #B91C1C;
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            font-size: 14px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .alert-error svg { flex-shrink: 0; width: 16px; height: 16px; }
+        .alert-success {
+            background: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            color: #15803D;
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            font-size: 14px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .field {
+            margin-bottom: 1.25rem;
+        }
+        .field label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-1);
+            margin-bottom: 8px;
+        }
+        .input-wrap {
+            position: relative;
+        }
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-3);
+            width: 18px; height: 18px;
+            pointer-events: none;
+        }
+        .field input {
+            width: 100%;
+            height: 48px;
+            padding: 0 16px 0 44px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            color: var(--text-1);
+            background: var(--surface);
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .field input:focus {
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
+        }
+        .field input::placeholder { color: var(--text-3); }
+        .btn-primary {
+            width: 100%;
+            height: 50px;
+            background: var(--brand);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.15s, transform 0.1s;
+            margin-top: 1.5rem;
+        }
+        .btn-primary:hover { background: var(--brand-dark); }
+        .btn-primary:active { transform: scale(0.99); }
+        .btn-primary svg { width: 18px; height: 18px; }
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 1.5rem 0;
+            color: var(--text-3);
+            font-size: 13px;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .link-text {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-2);
+        }
+        .link-text a {
+            color: var(--brand);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .link-text a:hover { text-decoration: underline; }
+        @media (max-width: 768px) {
+            body { grid-template-columns: 1fr; }
+            .panel-left { display: none; }
+            .panel-right { padding: 2rem 1.5rem; }
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 min-h-screen flex items-center justify-center font-inter antialiased">
-    <div class="w-full max-w-md px-6">
-        <!-- Logo/Brand Section -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-2xl shadow-lg mb-4">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
+<body>
+    <!-- Left panel -->
+    <div class="panel-left">
+        <div class="panel-brand">
+            <div class="brand-icon">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
             </div>
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">Selamat Datang</h1>
-            <p class="text-gray-500 text-sm">Masuk ke akun Anda untuk melanjutkan</p>
+            <span class="brand-name">Suara Siswa</span>
         </div>
+        <div class="hero-text">
+            <h1>Sampaikan<br><span>aspirasimu</span><br>dengan berani.</h1>
+            <p>Platform pengaduan siswa yang aman, cepat, dan ditangani dengan serius oleh petugas sekolah.</p>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-num">3×24</div>
+                <div class="stat-label">Jam respons</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Aman & rahasia</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">Real-time</div>
+                <div class="stat-label">Tracking status</div>
+            </div>
+        </div>
+    </div>
 
-        <!-- Login Card -->
-        <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-100 p-8 transition-all duration-300 hover:shadow-3xl">
+    <!-- Right panel -->
+    <div class="panel-right">
+        <div class="form-card">
+            <div class="form-header">
+                <h2>Selamat datang 👋</h2>
+                <p>Masuk ke akun Anda untuk melanjutkan</p>
+            </div>
+
             @if(session('error'))
-                <div class="mb-6 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg px-4 py-3 text-sm flex items-start gap-3 animate-shake">
-                    <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                    </svg>
-                    <span>{{ session('error') }}</span>
+                <div class="alert-error">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    {{ session('error') }}
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login.submit') }}" class="space-y-6">
+            @if(session('success'))
+                <div class="alert-success">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('login.submit') }}">
                 @csrf
-                
-                <!-- Username Field -->
-                <div class="group">
-                    <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">Username</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
-                        </div>
-                        <input 
-                            type="text" 
-                            id="username" 
-                            name="username" 
-                            required 
-                            autofocus 
-                            class="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all duration-200 text-gray-800 placeholder-gray-400" 
-                            placeholder="Masukkan username"
-                        />
+                <div class="field">
+                    <label for="username">Username</label>
+                    <div class="input-wrap">
+                        <svg class="input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <input type="text" id="username" name="username" placeholder="Masukkan username" autofocus required>
                     </div>
                 </div>
-
-                <!-- Password Field -->
-                <div class="group">
-                    <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                            </svg>
-                        </div>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            required 
-                            class="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all duration-200 text-gray-800 placeholder-gray-400" 
-                            placeholder="Masukkan password"
-                        />
+                <div class="field">
+                    <label for="password">Password</label>
+                    <div class="input-wrap">
+                        <svg class="input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                        <input type="password" id="password" name="password" placeholder="Masukkan password" required>
                     </div>
                 </div>
-
-                <!-- Submit Button -->
-                <button 
-                    type="submit" 
-                    class="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-blue-600 hover:to-primary text-white font-semibold py-3.5 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                    <span>Masuk</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                    </svg>
+                <button type="submit" class="btn-primary">
+                    Masuk
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                 </button>
             </form>
 
-            <!-- Divider -->
-            <div class="relative my-6">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-gray-200"></div>
-                </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="px-4 bg-white text-gray-500">atau</span>
-                </div>
-            </div>
-
-            <!-- Register Link -->
-            <div class="text-center">
-                <p class="text-gray-600 text-sm">
-                    Belum punya akun? 
-                    <a href="{{ route('register') }}" class="text-primary font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1 group">
-                        Daftar sekarang
-                        <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center mt-6">
-            <p class="text-gray-400 text-xs">© 2026 Sistem Pengaduan Siswa. All rights reserved.</p>
+            <div class="divider">atau</div>
+            <p class="link-text">
+                Belum punya akun? <a href="{{ route('register') }}">Daftar sekarang</a>
+            </p>
         </div>
     </div>
 </body>

@@ -1,157 +1,253 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard User - Sistem Pengaduan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dashboard — Suara Siswa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
+    <style>
+        :root {
+            --brand: #1A56DB; --brand-dark: #1341AB; --brand-light: #EBF2FF;
+            --surface: #FFFFFF; --surface-2: #F8FAFF; --border: #E2E8F0;
+            --text-1: #0F172A; --text-2: #475569; --text-3: #94A3B8;
+            --success: #059669; --warning: #D97706; --danger: #DC2626;
+            --radius: 16px; --radius-sm: 10px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: #F4F7FF; color: var(--text-1); min-height: 100vh; }
+        nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); }
+        .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .brand-icon { width: 36px; height: 36px; background: var(--brand); border-radius: 10px; display: grid; place-items: center; }
+        .brand-icon svg { width: 18px; height: 18px; }
+        .brand-name { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 600; color: var(--text-1); letter-spacing: -0.3px; }
+        .nav-links { display: flex; align-items: center; gap: 4px; }
+        .nav-link { padding: 7px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; color: var(--text-2); transition: all 0.15s; }
+        .nav-link:hover { background: var(--surface-2); color: var(--text-1); }
+        .nav-link.active { background: var(--brand-light); color: var(--brand); }
+        .btn-nav { padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; background: var(--brand); color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: background 0.15s; margin-left: 8px; border: none; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+        .btn-nav:hover { background: var(--brand-dark); }
+        .user-area { display: flex; align-items: center; gap: 12px; }
+        .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--brand-light); display: grid; place-items: center; font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; color: var(--brand); }
+        .user-name { font-size: 14px; font-weight: 500; }
+        .btn-logout { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; color: #64748B; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
+        .btn-logout:hover { border-color: #CBD5E1; background: var(--surface-2); }
+        main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+        /* Hero banner */
+        .hero-banner {
+            background: linear-gradient(120deg, #1A56DB 0%, #1E3A8A 100%);
+            border-radius: 20px;
+            padding: 2.5rem 3rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+        }
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            right: -60px; top: -80px;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-greeting { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
+        .hero-name { font-family: 'Sora', sans-serif; font-size: 28px; font-weight: 700; color: #fff; letter-spacing: -0.5px; margin-bottom: 10px; }
+        .hero-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 420px; }
+        .hero-actions { display: flex; gap: 12px; margin-top: 1.5rem; }
+        .btn-hero-primary { padding: 10px 20px; border-radius: 10px; background: #fff; color: var(--brand); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 7px; transition: transform 0.15s; }
+        .btn-hero-primary:hover { transform: translateY(-1px); }
+        .btn-hero-secondary { padding: 10px 20px; border-radius: 10px; background: rgba(255,255,255,0.12); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 7px; border: 1px solid rgba(255,255,255,0.2); transition: background 0.15s; }
+        .btn-hero-secondary:hover { background: rgba(255,255,255,0.18); }
+        .hero-illustration { position: relative; z-index: 1; }
+        .hero-illustration svg { width: 120px; height: 120px; opacity: 0.18; }
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 2rem; }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; transition: box-shadow 0.15s; }
+        .stat-card:hover { box-shadow: 0 4px 16px rgba(15,23,42,0.08); }
+        .stat-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .stat-icon { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; }
+        .stat-icon svg { width: 18px; height: 18px; }
+        .stat-badge { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
+        .stat-num { font-family: 'Sora', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -1px; margin-bottom: 2px; }
+        .stat-label { font-size: 13px; color: var(--text-2); }
+        /* Quick actions */
+        .section-title { font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 600; color: var(--text-1); letter-spacing: -0.3px; margin-bottom: 1rem; }
+        .actions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 2rem; }
+        .action-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.15s; display: flex; flex-direction: column; gap: 10px; }
+        .action-card:hover { box-shadow: 0 4px 16px rgba(15,23,42,0.08); transform: translateY(-2px); border-color: #CBD5E1; }
+        .action-icon { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; }
+        .action-icon svg { width: 20px; height: 20px; }
+        .action-title { font-size: 15px; font-weight: 600; color: var(--text-1); }
+        .action-desc { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+        /* Info box */
+        .info-box { background: var(--brand-light); border: 1px solid #BFDBFE; border-radius: var(--radius); padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 14px; margin-bottom: 2rem; }
+        .info-box svg { width: 20px; height: 20px; color: var(--brand); flex-shrink: 0; margin-top: 1px; }
+        .info-box-text h4 { font-size: 14px; font-weight: 600; color: var(--brand); margin-bottom: 4px; }
+        .info-box-text p { font-size: 13.5px; color: #3B82F6; line-height: 1.5; }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .actions-grid { grid-template-columns: 1fr; }
+            .hero-banner { padding: 2rem 1.5rem; flex-direction: column; }
+            .hero-illustration { display: none; }
+            .nav-links { display: none; }
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen font-inter antialiased">
-    <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-3">
-                    <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary to-blue-600 rounded-xl shadow-md">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 class="text-lg font-bold text-gray-800">Dashboard</h1>
-                        <p class="text-xs text-gray-500">Sistem Pengaduan</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <div class="hidden sm:block text-right">
-                        <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->nama ?? Auth::user()->username }}</p>
-                        <p class="text-xs text-gray-500">User</p>
-                    </div>
-                    <form action="{{ route('logout') }}" method="POST" class="m-0">
-                        @csrf
-                        <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-xl font-medium hover:bg-red-100 hover:border-red-300 transition-all duration-200 shadow-sm hover:shadow">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                            </svg>
-                            <span class="hidden sm:inline">Logout</span>
-                        </button>
-                    </form>
-                </div>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="{{ route('user.dashboard') }}" class="brand">
+                <div class="brand-icon"><svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg></div>
+                <span class="brand-name">Suara Siswa</span>
+            </a>
+            <div class="nav-links">
+                <a href="{{ route('user.dashboard') }}" class="nav-link active">Dashboard</a>
+                <a href="{{ route('user.pengaduan.index') }}" class="nav-link">Pengaduan Saya</a>
+                <a href="{{ route('user.pengaduan.create') }}" class="btn-nav">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                    Buat Pengaduan
+                </a>
+            </div>
+            <div class="user-area">
+                <div class="avatar">{{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->username, 0, 1)) }}</div>
+                <span class="user-name">{{ Auth::user()->nama ?? Auth::user()->username }}</span>
+                <form action="{{ route('logout') }}" method="POST" style="margin:0;">
+                    @csrf
+                    <button type="submit" class="btn-logout">
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        Keluar
+                    </button>
+                </form>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Welcome Card -->
-        <div class="bg-gradient-to-r from-primary to-blue-600 rounded-3xl shadow-2xl p-8 md:p-12 mb-8 text-white relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
-            <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
-            <div class="relative z-10">
-                <div class="flex items-center gap-3 mb-4">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/>
-                    </svg>
-                    <div>
-                        <h2 class="text-3xl md:text-4xl font-bold">Selamat Datang!</h2>
-                        <p class="text-blue-100 text-lg mt-1">{{ Auth::user()->nama ?? Auth::user()->username }}</p>
-                    </div>
+    <main>
+        <!-- Flash messages -->
+        @if(session('success'))
+            <div style="background:#F0FDF4;border:1px solid #BBF7D0;color:#15803D;border-radius:10px;padding:12px 16px;margin-bottom:1.5rem;font-size:14px;display:flex;align-items:center;gap:10px;">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="hero-content">
+                <p class="hero-greeting">Halo, selamat datang kembali!</p>
+                <h1 class="hero-name">{{ Auth::user()->nama ?? Auth::user()->username }} 👋</h1>
+                <p class="hero-desc">Sampaikan pengaduanmu dan kami akan memastikan suaramu didengar oleh yang berwenang.</p>
+                <div class="hero-actions">
+                    <a href="{{ route('user.pengaduan.create') }}" class="btn-hero-primary">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        Buat Pengaduan
+                    </a>
+                    <a href="{{ route('user.pengaduan.index') }}" class="btn-hero-secondary">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                        Lihat Riwayat
+                    </a>
                 </div>
-                <p class="text-blue-50 text-lg max-w-2xl">Sampaikan pengaduan Anda dan pantau statusnya secara real-time. Kami siap membantu menyelesaikan masalah Anda.</p>
+            </div>
+            <div class="hero-illustration">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" stroke="white" stroke-width="2"/>
+                    <path d="M30 40h40M30 50h30M30 60h20" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="70" cy="62" r="12" fill="white" fill-opacity="0.2" stroke="white" stroke-width="2"/>
+                    <path d="M66 62l3 3 6-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-xl">
-                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon" style="background:#EBF2FF;">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#1A56DB" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     </div>
-                    <span class="text-3xl font-bold text-gray-800">{{ $stats['total'] }}</span>
+                    <span class="stat-badge" style="background:#EBF2FF;color:#1A56DB;">Total</span>
                 </div>
-                <h3 class="text-gray-600 font-medium">Total Pengaduan</h3>
-                <p class="text-sm text-gray-400 mt-1">Semua pengaduan Anda</p>
+                <div class="stat-num" style="color:#1A56DB;">{{ $stats['total'] }}</div>
+                <div class="stat-label">Total Pengaduan</div>
             </div>
-
-            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center justify-center w-12 h-12 bg-yellow-100 rounded-xl">
-                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
+            <div class="stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon" style="background:#FFFBEB;">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#D97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <span class="text-3xl font-bold text-gray-800">{{ $stats['pending'] }}</span>
+                    <span class="stat-badge" style="background:#FFFBEB;color:#D97706;">Menunggu</span>
                 </div>
-                <h3 class="text-gray-600 font-medium">Pending</h3>
-                <p class="text-sm text-gray-400 mt-1">Menunggu diproses</p>
+                <div class="stat-num" style="color:#D97706;">{{ $stats['pending'] }}</div>
+                <div class="stat-label">Pending</div>
             </div>
-
-            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-xl">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                        </svg>
+            <div class="stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon" style="background:#EFF6FF;">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#3B82F6" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                     </div>
-                    <span class="text-3xl font-bold text-gray-800">{{ $stats['proses'] }}</span>
+                    <span class="stat-badge" style="background:#EFF6FF;color:#3B82F6;">Diproses</span>
                 </div>
-                <h3 class="text-gray-600 font-medium">Dalam Proses</h3>
-                <p class="text-sm text-gray-400 mt-1">Sedang ditangani</p>
+                <div class="stat-num" style="color:#3B82F6;">{{ $stats['proses'] }}</div>
+                <div class="stat-label">Dalam Proses</div>
             </div>
-
-            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center justify-center w-12 h-12 bg-green-100 rounded-xl">
-                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
+            <div class="stat-card">
+                <div class="stat-top">
+                    <div class="stat-icon" style="background:#F0FDF4;">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#059669" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <span class="text-3xl font-bold text-gray-800">{{ $stats['selesai'] }}</span>
+                    <span class="stat-badge" style="background:#F0FDF4;color:#059669;">Tuntas</span>
                 </div>
-                <h3 class="text-gray-600 font-medium">Selesai</h3>
-                <p class="text-sm text-gray-400 mt-1">Pengaduan terselesaikan</p>
+                <div class="stat-num" style="color:#059669;">{{ $stats['selesai'] }}</div>
+                <div class="stat-label">Selesai</div>
             </div>
         </div>
 
         <!-- Quick Actions -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100">
-            <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-                Aksi Cepat
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <a href="{{ route('user.pengaduan.create') }}" class="flex items-center gap-3 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl hover:from-blue-100 hover:to-indigo-100 transition-all duration-200 border border-blue-100 hover:border-blue-200 group">
-                    <div class="flex items-center justify-center w-10 h-10 bg-primary rounded-lg group-hover:scale-110 transition-transform">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                        </svg>
-                    </div>
-                    <span class="font-semibold text-gray-700">Buat Pengaduan Baru</span>
-                </a>
+        <p class="section-title">Aksi Cepat</p>
+        <div class="actions-grid">
+            <a href="{{ route('user.pengaduan.create') }}" class="action-card">
+                <div class="action-icon" style="background:#EBF2FF;">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="#1A56DB" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </div>
+                <div>
+                    <div class="action-title">Buat Pengaduan Baru</div>
+                    <div class="action-desc">Sampaikan keluhan atau masalah yang kamu hadapi di sekolah</div>
+                </div>
+            </a>
+            <a href="{{ route('user.pengaduan.index') }}" class="action-card">
+                <div class="action-icon" style="background:#F3F4F6;">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="#374151" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                </div>
+                <div>
+                    <div class="action-title">Riwayat Pengaduan</div>
+                    <div class="action-desc">Lihat semua pengaduan yang pernah kamu kirimkan</div>
+                </div>
+            </a>
+            <div class="action-card" style="background:#FFFBEB;border-color:#FDE68A;cursor:default;">
+                <div class="action-icon" style="background:#FEF3C7;">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="#D97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div>
+                    <div class="action-title" style="color:#92400E;">Panduan Pengaduan</div>
+                    <div class="action-desc" style="color:#B45309;">Pengaduan yang jelas dan detail akan lebih cepat ditangani petugas</div>
+                </div>
+            </div>
+        </div>
 
-                <a href="{{ route('user.pengaduan.index') }}" class="flex items-center gap-3 p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl hover:from-purple-100 hover:to-pink-100 transition-all duration-200 border border-purple-100 hover:border-purple-200 group">
-                    <div class="flex items-center justify-center w-10 h-10 bg-purple-600 rounded-lg group-hover:scale-110 transition-transform">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                        </svg>
-                    </div>
-                    <span class="font-semibold text-gray-700">Lihat Riwayat Pengaduan</span>
-                </a>
+        <!-- Info box -->
+        <div class="info-box">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="info-box-text">
+                <h4>Tentang Kerahasiaan Data</h4>
+                <p>Semua pengaduan yang kamu kirimkan hanya dapat dilihat oleh petugas yang berwenang. Identitasmu terjaga dengan aman di sistem kami.</p>
             </div>
         </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <p class="text-center text-gray-500 text-sm">© 2026 Sistem Pengaduan Siswa. All rights reserved.</p>
-        </div>
-    </footer>
 </body>
 </html>

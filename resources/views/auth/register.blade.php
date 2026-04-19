@@ -1,167 +1,289 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Sistem Pengaduan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Daftar — Suara Siswa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
+    <style>
+        :root {
+            --brand: #1A56DB;
+            --brand-dark: #1341AB;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --text-1: #0F172A;
+            --text-2: #475569;
+            --text-3: #94A3B8;
+            --radius-sm: 10px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #F0F4FF;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .panel-left {
+            background: linear-gradient(145deg, #0F172A 0%, #1E3A8A 50%, #1A56DB 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .panel-left::before {
+            content: '';
+            position: absolute;
+            top: 30%; left: -100px;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.03);
+        }
+        .brand-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+            position: relative; z-index: 1;
+        }
+        .brand-icon {
+            width: 44px; height: 44px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: grid; place-items: center;
+        }
+        .brand-icon svg { width: 22px; height: 22px; color: #fff; }
+        .brand-name {
+            font-family: 'Sora', sans-serif;
+            font-size: 20px; font-weight: 600;
+            color: #fff; letter-spacing: -0.3px;
+        }
+        .steps {
+            position: relative; z-index: 1;
+        }
+        .steps h2 {
+            font-family: 'Sora', sans-serif;
+            font-size: 32px; font-weight: 700;
+            color: #fff; letter-spacing: -0.8px;
+            line-height: 1.25;
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 1.5rem;
+        }
+        .step-num {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Sora', sans-serif;
+            font-size: 13px; font-weight: 600;
+            color: #93C5FD;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .step-content h4 {
+            font-size: 15px; font-weight: 500;
+            color: #fff; margin-bottom: 3px;
+        }
+        .step-content p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.5;
+        }
+        .panel-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            overflow-y: auto;
+        }
+        .form-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 2.5rem;
+            background: var(--surface);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(15,23,42,0.1);
+        }
+        .form-header { margin-bottom: 2rem; }
+        .form-header h2 {
+            font-family: 'Sora', sans-serif;
+            font-size: 26px; font-weight: 700;
+            color: var(--text-1); letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+        .form-header p { font-size: 14px; color: var(--text-2); }
+        .alert-error {
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            color: #B91C1C;
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            font-size: 13.5px;
+            margin-bottom: 1.25rem;
+        }
+        .alert-error ul { padding-left: 16px; }
+        .alert-error li { margin-bottom: 2px; }
+        .field { margin-bottom: 1rem; }
+        .field label {
+            display: block; font-size: 13.5px;
+            font-weight: 500; color: var(--text-1); margin-bottom: 6px;
+        }
+        .input-wrap { position: relative; }
+        .input-icon {
+            position: absolute; left: 13px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-3); width: 17px; height: 17px;
+            pointer-events: none;
+        }
+        .field input {
+            width: 100%; height: 46px;
+            padding: 0 14px 0 40px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14.5px; color: var(--text-1);
+            background: var(--surface); outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .field input:focus {
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
+        }
+        .field input::placeholder { color: var(--text-3); }
+        .hint { font-size: 12px; color: var(--text-3); margin-top: 5px; }
+        .btn-primary {
+            width: 100%; height: 48px;
+            background: var(--brand); color: #fff;
+            border: none; border-radius: var(--radius-sm);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-weight: 500;
+            cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+            gap: 8px;
+            transition: background 0.15s, transform 0.1s;
+            margin-top: 1.25rem;
+        }
+        .btn-primary:hover { background: var(--brand-dark); }
+        .btn-primary:active { transform: scale(0.99); }
+        .divider {
+            display: flex; align-items: center; gap: 12px;
+            margin: 1.5rem 0; color: var(--text-3); font-size: 13px;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px; background: var(--border);
+        }
+        .link-text { text-align: center; font-size: 14px; color: var(--text-2); }
+        .link-text a { color: var(--brand); font-weight: 500; text-decoration: none; }
+        .link-text a:hover { text-decoration: underline; }
+        @media (max-width: 768px) {
+            body { grid-template-columns: 1fr; }
+            .panel-left { display: none; }
+            .panel-right { padding: 2rem 1.25rem; align-items: flex-start; padding-top: 3rem; }
+            .form-card { box-shadow: none; padding: 0; background: transparent; }
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-50 via-white to-blue-50 min-h-screen flex items-center justify-center font-inter antialiased py-12">
-    <div class="w-full max-w-md px-6">
-        <!-- Logo/Brand Section -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-blue-600 rounded-2xl shadow-lg mb-4">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
-                </svg>
+<body>
+    <div class="panel-left">
+        <div class="brand-row">
+            <div class="brand-icon">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
             </div>
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">Buat Akun Baru</h1>
-            <p class="text-gray-500 text-sm">Daftar untuk menggunakan sistem pengaduan</p>
+            <span class="brand-name">Suara Siswa</span>
         </div>
+        <div class="steps">
+            <h2>Mulai dalam<br>3 langkah mudah</h2>
+            <div class="step-item">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h4>Buat akun gratis</h4>
+                    <p>Daftar dengan username dan password pilihanmu sendiri</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h4>Tulis pengaduanmu</h4>
+                    <p>Sampaikan masalah secara detail, tambahkan foto jika perlu</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h4>Pantau status real-time</h4>
+                    <p>Lihat perkembangan pengaduan hingga selesai ditangani</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <!-- Register Card -->
-        <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-100 p-8 transition-all duration-300 hover:shadow-3xl">
+    <div class="panel-right">
+        <div class="form-card">
+            <div class="form-header">
+                <h2>Buat akun baru ✍️</h2>
+                <p>Isi data di bawah untuk mendaftar</p>
+            </div>
+
             @if($errors->any())
-                <div class="mb-6 bg-red-50 border-l-4 border-red-500 rounded-lg px-4 py-3 text-sm">
-                    <div class="flex items-start gap-3">
-                        <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                        </svg>
-                        <div class="text-red-700">
-                            @foreach($errors->all() as $error)
-                                <div class="mb-1 last:mb-0">{{ $error }}</div>
-                            @endforeach
-                        </div>
-                    </div>
+                <div class="alert-error">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('register.submit') }}" class="space-y-5">
+            <form method="POST" action="{{ route('register.submit') }}">
                 @csrf
-                
-                <!-- Username Field -->
-                <div class="group">
-                    <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">Username</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
-                        </div>
-                        <input 
-                            type="text" 
-                            id="username" 
-                            name="username" 
-                            value="{{ old('username') }}"
-                            required 
-                            autofocus 
-                            class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all duration-200 text-gray-800 placeholder-gray-400" 
-                            placeholder="Pilih username unik"
-                        />
+                <div class="field">
+                    <label for="username">Username</label>
+                    <div class="input-wrap">
+                        <svg class="input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <input type="text" id="username" name="username" value="{{ old('username') }}" placeholder="Pilih username unik" required>
                     </div>
                 </div>
-
-                <!-- Full Name Field -->
-                <div class="group">
-                    <label for="nama" class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                        <input 
-                            type="text" 
-                            id="nama" 
-                            name="nama" 
-                            value="{{ old('nama') }}"
-                            required 
-                            class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all duration-200 text-gray-800 placeholder-gray-400" 
-                            placeholder="Masukkan nama lengkap"
-                        />
+                <div class="field">
+                    <label for="nama">Nama Lengkap</label>
+                    <div class="input-wrap">
+                        <svg class="input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        <input type="text" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Nama lengkap kamu" required>
                     </div>
                 </div>
-
-                <!-- Password Field -->
-                <div class="group">
-                    <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                            </svg>
-                        </div>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            required 
-                            class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all duration-200 text-gray-800 placeholder-gray-400" 
-                            placeholder="Minimal 8 karakter"
-                        />
+                <div class="field">
+                    <label for="password">Password</label>
+                    <div class="input-wrap">
+                        <svg class="input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                        <input type="password" id="password" name="password" placeholder="Minimal 4 karakter" required>
                     </div>
                 </div>
-
-                <!-- Confirm Password Field -->
-                <div class="group">
-                    <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">Konfirmasi Password</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                        <input 
-                            type="password" 
-                            id="password_confirmation" 
-                            name="password_confirmation" 
-                            required 
-                            class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:bg-white transition-all duration-200 text-gray-800 placeholder-gray-400" 
-                            placeholder="Ulangi password"
-                        />
+                <div class="field">
+                    <label for="password_confirmation">Konfirmasi Password</label>
+                    <div class="input-wrap">
+                        <svg class="input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Ulangi password" required>
                     </div>
                 </div>
-
-                <!-- Submit Button -->
-                <button 
-                    type="submit" 
-                    class="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-blue-600 hover:to-primary text-white font-semibold py-3.5 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 mt-6"
-                >
-                    <span>Daftar Sekarang</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                    </svg>
+                <button type="submit" class="btn-primary">
+                    Daftar Sekarang
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                 </button>
             </form>
 
-            <!-- Divider -->
-            <div class="relative my-6">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-gray-200"></div>
-                </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="px-4 bg-white text-gray-500">atau</span>
-                </div>
-            </div>
-
-            <!-- Login Link -->
-            <div class="text-center">
-                <p class="text-gray-600 text-sm">
-                    Sudah punya akun? 
-                    <a href="{{ route('login') }}" class="text-primary font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1 group">
-                        Masuk sekarang
-                        <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center mt-6">
-            <p class="text-gray-400 text-xs">© 2026 Sistem Pengaduan Siswa. All rights reserved.</p>
+            <div class="divider">atau</div>
+            <p class="link-text">
+                Sudah punya akun? <a href="{{ route('login') }}">Masuk di sini</a>
+            </p>
         </div>
     </div>
 </body>

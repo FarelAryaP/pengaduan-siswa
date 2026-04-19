@@ -1,232 +1,199 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Pengaduan - {{ $pengaduan->judul }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Detail Pengaduan — Suara Siswa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
+    <style>
+        :root { --brand:#1A56DB;--brand-dark:#1341AB;--brand-light:#EBF2FF;--surface:#FFFFFF;--surface-2:#F8FAFF;--border:#E2E8F0;--text-1:#0F172A;--text-2:#475569;--text-3:#94A3B8;--radius:16px;--radius-sm:10px; }
+        * { box-sizing:border-box;margin:0;padding:0; }
+        body { font-family:'DM Sans',sans-serif;background:#F4F7FF;color:var(--text-1);min-height:100vh; }
+        nav { position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border); }
+        .nav-inner { max-width:1100px;margin:0 auto;padding:0 1.5rem;height:62px;display:flex;align-items:center;justify-content:space-between; }
+        .brand { display:flex;align-items:center;gap:10px;text-decoration:none; }
+        .brand-icon { width:36px;height:36px;background:var(--brand);border-radius:10px;display:grid;place-items:center; }
+        .brand-name { font-family:'Sora',sans-serif;font-size:16px;font-weight:600;color:var(--text-1); }
+        .nav-links { display:flex;align-items:center;gap:4px; }
+        .nav-link { padding:7px 14px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;color:var(--text-2); }
+        .nav-link:hover { background:var(--brand-light);color:var(--brand); }
+        .user-area { display:flex;align-items:center;gap:12px; }
+        .avatar { width:34px;height:34px;border-radius:50%;background:var(--brand-light);display:grid;place-items:center;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--brand); }
+        .btn-logout { padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;color:#64748B;cursor:pointer;display:flex;align-items:center;gap:6px; }
+        main { max-width:800px;margin:0 auto;padding:2.5rem 1.5rem 4rem; }
+        .breadcrumb { display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text-3);margin-bottom:1.5rem; }
+        .breadcrumb a { color:var(--brand);text-decoration:none; }
+        .breadcrumb svg { width:14px;height:14px; }
+        /* Status header */
+        .detail-header { background:#fff;border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1.5rem; }
+        .header-top { padding:2rem; display:flex; justify-content:space-between;align-items:flex-start;gap:1rem; }
+        .header-title { font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--text-1);letter-spacing:-0.4px;margin-bottom:8px; }
+        .header-meta { display:flex;align-items:center;gap:16px;flex-wrap:wrap; }
+        .meta-item { display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text-3); }
+        .meta-item svg { width:14px;height:14px; }
+        .status-pill { padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;flex-shrink:0; }
+        .pill-pending { background:#FFFBEB;color:#B45309;border:1px solid #FDE68A; }
+        .pill-proses { background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE; }
+        .pill-selesai { background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0; }
+        /* Progress track */
+        .progress-track { padding:1.25rem 2rem;border-top:1px solid var(--border);display:flex;align-items:center;gap:0; }
+        .prog-step { display:flex;flex-direction:column;align-items:center;gap:6px;flex:1; }
+        .prog-circle { width:32px;height:32px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--border);background:#fff; }
+        .prog-circle.done { background:var(--brand);border-color:var(--brand); }
+        .prog-circle.active { background:var(--brand-light);border-color:var(--brand); }
+        .prog-circle svg { width:14px;height:14px; }
+        .prog-label { font-size:12px;font-weight:500;color:var(--text-3);text-align:center; }
+        .prog-label.done { color:var(--brand); }
+        .prog-line { flex:1;height:2px;background:var(--border);margin-bottom:18px; }
+        .prog-line.done { background:var(--brand); }
+        /* Content card */
+        .content-card { background:#fff;border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1.5rem; }
+        .content-section { padding:1.5rem 2rem;border-bottom:1px solid var(--border); }
+        .content-section:last-child { border-bottom:none; }
+        .section-label { font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-3);margin-bottom:12px; }
+        .content-text { font-size:15px;color:var(--text-2);line-height:1.7;white-space:pre-line; }
+        .foto-img { width:100%;max-height:400px;object-fit:contain;border-radius:var(--radius-sm);cursor:pointer;transition:opacity 0.15s; }
+        .foto-img:hover { opacity:0.92; }
+        /* Actions */
+        .action-bar { display:flex;gap:12px;flex-wrap:wrap; }
+        .btn-back { padding:11px 20px;border-radius:var(--radius-sm);background:var(--surface-2);color:var(--text-2);border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:7px;transition:all 0.15s; }
+        .btn-back:hover { background:#EEF2FF;border-color:#CBD5E1; }
+        .btn-delete { padding:11px 20px;border-radius:var(--radius-sm);background:#FEF2F2;color:#DC2626;border:1.5px solid #FECACA;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all 0.15s; }
+        .btn-delete:hover { background:#FEE2E2; }
+        /* Lightbox */
+        .lightbox { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:999;align-items:center;justify-content:center;padding:2rem; }
+        .lightbox.open { display:flex; }
+        .lightbox-close { position:absolute;top:1.5rem;right:1.5rem;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.12);border:none;cursor:pointer;display:grid;place-items:center;color:#fff; }
+        .lightbox-close svg { width:20px;height:20px; }
+        .lightbox img { max-width:100%;max-height:85vh;border-radius:12px;object-fit:contain; }
+        @media(max-width:768px) { .nav-links{display:none;} main{padding:2rem 1rem;} .header-top{flex-direction:column;} .progress-track{padding:1rem;} }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen font-inter antialiased">
-    <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('user.pengaduan.index') }}" class="flex items-center gap-3 hover:opacity-80 transition">
-                        <div class="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary to-blue-600 rounded-xl shadow-md">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h1 class="text-lg font-bold text-gray-800">Detail Pengaduan</h1>
-                            <p class="text-xs text-gray-500">Informasi lengkap</p>
-                        </div>
-                    </a>
-                </div>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="{{ route('user.dashboard') }}" class="brand">
+                <div class="brand-icon"><svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg></div>
+                <span class="brand-name">Suara Siswa</span>
+            </a>
+            <div class="nav-links">
+                <a href="{{ route('user.dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ route('user.pengaduan.index') }}" class="nav-link">Pengaduan Saya</a>
+            </div>
+            <div class="user-area">
+                <div class="avatar">{{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->username, 0, 1)) }}</div>
+                <form action="{{ route('logout') }}" method="POST" style="margin:0;">
+                    @csrf
+                    <button type="submit" class="btn-logout"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7"/></svg>Keluar</button>
+                </form>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
-            <!-- Header -->
-            <div class="bg-gradient-to-r from-primary to-blue-600 p-8 text-white">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="flex-1">
-                        <h1 class="text-3xl font-bold mb-2">{{ $pengaduan->judul }}</h1>
-                        <div class="flex items-center gap-4 text-blue-100">
-                            <div class="flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                </svg>
-                                <span class="text-sm">{{ $pengaduan->tanggal_lapor->format('d F Y') }}</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                <span class="text-sm">{{ $pengaduan->created_at->diffForHumans() }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    @if($pengaduan->status === 'pending')
-                        <span class="px-4 py-2 bg-yellow-500 text-white text-sm font-semibold rounded-xl shadow-lg">Pending</span>
-                    @elseif($pengaduan->status === 'proses')
-                        <span class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-xl shadow-lg">Diproses</span>
-                    @elseif($pengaduan->status === 'selesai')
-                        <span class="px-4 py-2 bg-green-500 text-white text-sm font-semibold rounded-xl shadow-lg">Selesai</span>
-                    @else
-                        <span class="px-4 py-2 bg-gray-500 text-white text-sm font-semibold rounded-xl shadow-lg">{{ ucfirst($pengaduan->status) }}</span>
-                    @endif
-                </div>
-            </div>
+    <main>
+        <div class="breadcrumb">
+            <a href="{{ route('user.dashboard') }}">Dashboard</a>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <a href="{{ route('user.pengaduan.index') }}">Pengaduan Saya</a>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <span>Detail</span>
+        </div>
 
-            <!-- Content -->
-            <div class="p-8">
-                <!-- Foto -->
-                @if($pengaduan->foto)
-                    <div class="mb-8">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            Foto Pendukung
-                        </h3>
-                        <div class="relative group">
-                            <img 
-                                src="{{ asset('storage/' . $pengaduan->foto) }}" 
-                                alt="Foto Pengaduan" 
-                                class="w-full h-auto rounded-2xl shadow-lg cursor-pointer hover:shadow-2xl transition-all duration-300"
-                                onclick="openModal()"
-                            >
-                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-2xl transition-all duration-300 flex items-center justify-center">
-                                <svg class="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
-                                </svg>
-                            </div>
-                        </div>
+        <!-- Header card -->
+        <div class="detail-header">
+            <div class="header-top">
+                <div>
+                    <h1 class="header-title">{{ $pengaduan->judul }}</h1>
+                    <div class="header-meta">
+                        <span class="meta-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>{{ $pengaduan->tanggal_lapor->format('d F Y') }}</span>
+                        <span class="meta-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>{{ $pengaduan->created_at->diffForHumans() }}</span>
                     </div>
+                </div>
+                @if($pengaduan->status === 'pending')
+                    <span class="status-pill pill-pending">⏳ Pending</span>
+                @elseif($pengaduan->status === 'proses')
+                    <span class="status-pill pill-proses">🔄 Sedang Diproses</span>
+                @else
+                    <span class="status-pill pill-selesai">✅ Selesai</span>
                 @endif
+            </div>
 
-                <!-- Isi Laporan -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                        Isi Laporan
-                    </h3>
-                    <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-                        <p class="text-gray-700 leading-relaxed whitespace-pre-line">{{ $pengaduan->isi_laporan }}</p>
+            <!-- Progress track -->
+            <div class="progress-track">
+                <div class="prog-step">
+                    <div class="prog-circle done">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                     </div>
+                    <span class="prog-label done">Terkirim</span>
                 </div>
-
-                <!-- Status Timeline -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                        </svg>
-                        Status Pengaduan
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="flex items-start gap-4">
-                            <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold text-gray-800">Pengaduan Dikirim</p>
-                                <p class="text-sm text-gray-500">{{ $pengaduan->created_at->format('d F Y, H:i') }}</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="flex-shrink-0 w-10 h-10 {{ $pengaduan->status === 'proses' || $pengaduan->status === 'selesai' ? 'bg-green-100' : 'bg-gray-100' }} rounded-full flex items-center justify-center">
-                                @if($pengaduan->status === 'proses' || $pengaduan->status === 'selesai')
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                @else
-                                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                    </svg>
-                                @endif
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold text-gray-800">Sedang Diproses</p>
-                                <p class="text-sm text-gray-500">
-                                    @if($pengaduan->status === 'proses' || $pengaduan->status === 'selesai')
-                                        Pengaduan sedang ditangani
-                                    @else
-                                        Menunggu proses
-                                    @endif
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="flex-shrink-0 w-10 h-10 {{ $pengaduan->status === 'selesai' ? 'bg-green-100' : 'bg-gray-100' }} rounded-full flex items-center justify-center">
-                                @if($pengaduan->status === 'selesai')
-                                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                @else
-                                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                    </svg>
-                                @endif
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold text-gray-800">Selesai</p>
-                                <p class="text-sm text-gray-500">
-                                    @if($pengaduan->status === 'selesai')
-                                        Pengaduan telah diselesaikan
-                                    @else
-                                        Belum selesai
-                                    @endif
-                                </p>
-                            </div>
-                        </div>
+                <div class="prog-line {{ $pengaduan->status !== 'pending' ? 'done' : '' }}"></div>
+                <div class="prog-step">
+                    <div class="prog-circle {{ $pengaduan->status === 'proses' ? 'active' : ($pengaduan->status === 'selesai' ? 'done' : '') }}">
+                        @if($pengaduan->status === 'selesai')
+                            <svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        @elseif($pengaduan->status === 'proses')
+                            <svg fill="none" viewBox="0 0 24 24" stroke="#1A56DB" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9"/></svg>
+                        @else
+                            <svg fill="none" viewBox="0 0 24 24" stroke="#CBD5E1" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+                        @endif
                     </div>
+                    <span class="prog-label {{ in_array($pengaduan->status, ['proses','selesai']) ? 'done' : '' }}">Diproses</span>
                 </div>
-
-                <!-- Actions -->
-                <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-200">
-                    <a href="{{ route('user.pengaduan.index') }}" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                        </svg>
-                        <span>Kembali</span>
-                    </a>
-                    @if($pengaduan->status === 'pending')
-                        <form action="{{ route('user.pengaduan.destroy', $pengaduan->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengaduan ini?')" class="flex-1">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-semibold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
-                                <span>Hapus Pengaduan</span>
-                            </button>
-                        </form>
-                    @endif
+                <div class="prog-line {{ $pengaduan->status === 'selesai' ? 'done' : '' }}"></div>
+                <div class="prog-step">
+                    <div class="prog-circle {{ $pengaduan->status === 'selesai' ? 'done' : '' }}">
+                        @if($pengaduan->status === 'selesai')
+                            <svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        @else
+                            <svg fill="none" viewBox="0 0 24 24" stroke="#CBD5E1" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+                        @endif
+                    </div>
+                    <span class="prog-label {{ $pengaduan->status === 'selesai' ? 'done' : '' }}">Selesai</span>
                 </div>
             </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content-card">
+            <div class="content-section">
+                <p class="section-label">Isi Laporan</p>
+                <p class="content-text">{{ $pengaduan->isi_laporan }}</p>
+            </div>
+            @if($pengaduan->foto)
+                <div class="content-section">
+                    <p class="section-label">Foto Pendukung</p>
+                    <img src="{{ asset('storage/' . $pengaduan->foto) }}" alt="Foto Pengaduan" class="foto-img" onclick="document.getElementById('lightbox').classList.add('open')">
+                    <p style="font-size:12.5px;color:var(--text-3);margin-top:8px;">Klik gambar untuk memperbesar</p>
+                </div>
+            @endif
+        </div>
+
+        <!-- Actions -->
+        <div class="action-bar">
+            <a href="{{ route('user.pengaduan.index') }}" class="btn-back">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                Kembali
+            </a>
+            @if($pengaduan->status === 'pending')
+                <form action="{{ route('user.pengaduan.destroy', $pengaduan->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengaduan ini?')" style="margin:0;">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="btn-delete">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        Hapus Pengaduan
+                    </button>
+                </form>
+            @endif
         </div>
     </main>
 
-    <!-- Modal for Image -->
-    <div id="imageModal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onclick="closeModal()">
-        <div class="relative max-w-7xl max-h-full">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-            <img src="{{ asset('storage/' . $pengaduan->foto) }}" alt="Foto Pengaduan" class="max-w-full max-h-screen rounded-lg">
+    @if($pengaduan->foto)
+        <div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+            <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+            <img src="{{ asset('storage/' . $pengaduan->foto) }}" alt="Foto Pengaduan" onclick="event.stopPropagation()">
         </div>
-    </div>
-
-    <script>
-        function openModal() {
-            document.getElementById('imageModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').classList.add('hidden');
-        }
-
-        // Close modal on ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
-    </script>
+        <script>document.addEventListener('keydown', e => { if(e.key==='Escape') document.getElementById('lightbox').classList.remove('open'); });</script>
+    @endif
 </body>
 </html>
