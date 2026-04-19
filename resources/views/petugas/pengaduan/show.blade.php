@@ -13,16 +13,30 @@
             --surface:#FFFFFF; --surface-2:#F8FAFF; --border:#E2E8F0;
             --text-1:#0F172A; --text-2:#475569; --text-3:#94A3B8;
             --radius:16px; --radius-sm:10px;
-            --sidebar-bg:#0F172A;
+            --sidebar-bg:#0F172A; --bg-body:#F4F7FF;
+            --pending-bg:#FFFBEB; --pending-text:#B45309; --pending-border:#FDE68A;
+            --proses-bg:#EFF6FF; --proses-text:#1D4ED8; --proses-border:#BFDBFE;
+            --selesai-bg:#F0FDF4; --selesai-text:#15803D; --selesai-border:#BBF7D0;
+            --bubble-user-bg:#EEF2FF; --bubble-user-text:#0F172A;
+        }
+        [data-theme="dark"] {
+            --brand:#60A5FA; --brand-dark:#3B82F6; --brand-light:#1E3A8A;
+            --surface:#1E293B; --surface-2:#0F172A; --border:#334155;
+            --text-1:#F1F5F9; --text-2:#CBD5E1; --text-3:#64748B;
+            --sidebar-bg:#020617; --bg-body:#0F172A;
+            --pending-bg:#422006; --pending-text:#FCD34D; --pending-border:#78350F;
+            --proses-bg:#1E3A8A; --proses-text:#93C5FD; --proses-border:#1E40AF;
+            --selesai-bg:#064E3B; --selesai-text:#6EE7B7; --selesai-border:#065F46;
+            --bubble-user-bg:#1E3A8A; --bubble-user-text:#E0E7FF;
         }
         *{box-sizing:border-box;margin:0;padding:0;}
-        body{font-family:'DM Sans',sans-serif;background:#F4F7FF;color:var(--text-1);min-height:100vh;}
+        body{font-family:'DM Sans',sans-serif;background:var(--bg-body);color:var(--text-1);min-height:100vh;transition:background 0.3s,color 0.3s;}
 
         /* ── Layout ── */
         .layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
 
         /* ── Sidebar ── */
-        .sidebar{background:var(--sidebar-bg);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;}
+        .sidebar{background:var(--sidebar-bg);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;transition:background 0.3s;}
         .sb-brand{padding:1.25rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:10px;}
         .sb-brand-icon{width:34px;height:34px;background:var(--brand);border-radius:9px;display:grid;place-items:center;}
         .sb-brand-name{font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff;}
@@ -42,8 +56,11 @@
 
         /* ── Main ── */
         .main{overflow:auto;display:flex;flex-direction:column;}
-        .topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+        .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;transition:background 0.3s;}
         .topbar-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:600;color:var(--text-1);}
+        .topbar-right{display:flex;align-items:center;gap:12px;}
+        .btn-dark-toggle{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--text-2);transition:all 0.15s;}
+        .btn-dark-toggle:hover{background:var(--surface-2);}
         .badge-role{padding:4px 10px;border-radius:20px;background:var(--brand-light);color:var(--brand);font-size:12px;font-weight:600;}
 
         /* ── Content ── */
@@ -85,16 +102,16 @@
 
         /* ── Status badge ── */
         .status-pill{padding:5px 13px;border-radius:20px;font-size:13px;font-weight:600;flex-shrink:0;}
-        .pill-pending{background:#FFFBEB;color:#B45309;border:1px solid #FDE68A;}
-        .pill-proses{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;}
-        .pill-selesai{background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;}
+        .pill-pending{background:var(--pending-bg);color:var(--pending-text);border:1px solid var(--pending-border);}
+        .pill-proses{background:var(--proses-bg);color:var(--proses-text);border:1px solid var(--proses-border);}
+        .pill-selesai{background:var(--selesai-bg);color:var(--selesai-text);border:1px solid var(--selesai-border);}
 
         /* ── Sidebar cards ── */
         /* Status update */
         .status-current{border-radius:10px;padding:11px;text-align:center;font-size:13.5px;font-weight:600;margin-bottom:.875rem;}
-        .sc-pending{background:#FFFBEB;color:#B45309;border:1px solid #FDE68A;}
-        .sc-proses{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;}
-        .sc-selesai{background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;}
+        .sc-pending{background:var(--pending-bg);color:var(--pending-text);border:1px solid var(--pending-border);}
+        .sc-proses{background:var(--proses-bg);color:var(--proses-text);border:1px solid var(--proses-border);}
+        .sc-selesai{background:var(--selesai-bg);color:var(--selesai-text);border:1px solid var(--selesai-border);}
         .status-select{width:100%;height:42px;padding:0 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-1);background:var(--surface-2);outline:none;margin-bottom:.875rem;cursor:pointer;appearance:auto;}
         .status-select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
         .btn-full{width:100%;height:42px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s;border:none;margin-bottom:8px;}
@@ -124,8 +141,8 @@
         .msg-bubble-wrap.from-petugas{flex-direction:row-reverse;}
 
         .bubble-avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:'Sora',sans-serif;font-size:11px;font-weight:700;flex-shrink:0;margin-bottom:4px;}
-        .ba-petugas{background:#1A56DB;color:#fff;}
-        .ba-user{background:#E2E8F0;color:#475569;}
+        .ba-petugas{background:var(--brand);color:#fff;}
+        .ba-user{background:var(--surface-2);color:var(--text-2);}
 
         .bubble-content{max-width:75%;}
         .bubble-name{font-size:11.5px;font-weight:600;color:var(--text-3);margin-bottom:4px;}
@@ -140,8 +157,8 @@
         }
         /* User bubble — abu, pojok kiri */
         .bubble-user{
-            background:#F1F5F9;
-            color:var(--text-1);
+            background:var(--bubble-user-bg);
+            color:var(--bubble-user-text);
             border-bottom-left-radius:4px;
         }
 
@@ -165,7 +182,7 @@
         .msg-input-hint{font-size:12px;color:var(--text-3);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
         .msg-input-hint svg{width:13px;height:13px;}
         .msg-form{display:flex;gap:10px;align-items:flex-end;}
-        .msg-textarea{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-1);background:#fff;resize:none;outline:none;min-height:44px;max-height:140px;transition:border-color .15s,box-shadow .15s;line-height:1.5;}
+        .msg-textarea{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-1);background:var(--surface);resize:none;outline:none;min-height:44px;max-height:140px;transition:border-color .15s,box-shadow .15s;line-height:1.5;}
         .msg-textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
         .msg-textarea::placeholder{color:var(--text-3);}
         .btn-send{width:44px;height:44px;border-radius:12px;background:var(--brand);border:none;cursor:pointer;display:grid;place-items:center;color:#fff;flex-shrink:0;transition:background .15s,transform .1s;}
@@ -185,6 +202,7 @@
             .detail-grid{grid-template-columns:1fr;}
         }
     </style>
+    @vite('resources/js/app.js')
 </head>
 <body>
 <div class="layout">
@@ -230,7 +248,12 @@
     <div class="main">
         <div class="topbar">
             <span class="topbar-title">Detail Pengaduan</span>
-            <span class="badge-role">Petugas</span>
+            <div class="topbar-right">
+                <button id="darkModeToggle" class="btn-dark-toggle" title="Toggle Dark Mode">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+                <span class="badge-role">Petugas</span>
+            </div>
         </div>
 
         <div class="content">

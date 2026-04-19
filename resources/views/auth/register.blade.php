@@ -17,14 +17,28 @@
             --text-2: #475569;
             --text-3: #94A3B8;
             --radius-sm: 10px;
+            --bg-body: #F0F4FF;
+            --danger-bg: #FEF2F2; --danger-text: #B91C1C; --danger-border: #FECACA;
+        }
+        [data-theme="dark"] {
+            --brand: #60A5FA;
+            --brand-dark: #3B82F6;
+            --surface: #1E293B;
+            --border: #334155;
+            --text-1: #F1F5F9;
+            --text-2: #CBD5E1;
+            --text-3: #64748B;
+            --bg-body: #0F172A;
+            --danger-bg: #7F1D1D; --danger-text: #FCA5A5; --danger-border: #991B1B;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'DM Sans', sans-serif;
-            background: #F0F4FF;
+            background: var(--bg-body);
             min-height: 100vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
+            transition: background 0.3s;
         }
         .panel-left {
             background: linear-gradient(145deg, #0F172A 0%, #1E3A8A 50%, #1A56DB 100%);
@@ -105,6 +119,8 @@
             justify-content: center;
             padding: 3rem;
             overflow-y: auto;
+            background: var(--bg-body);
+            transition: background 0.3s;
         }
         .form-card {
             width: 100%;
@@ -123,9 +139,9 @@
         }
         .form-header p { font-size: 14px; color: var(--text-2); }
         .alert-error {
-            background: #FEF2F2;
-            border: 1px solid #FECACA;
-            color: #B91C1C;
+            background: var(--danger-bg);
+            border: 1px solid var(--danger-border);
+            color: var(--danger-text);
             border-radius: var(--radius-sm);
             padding: 12px 16px;
             font-size: 13.5px;
@@ -192,8 +208,13 @@
             .form-card { box-shadow: none; padding: 0; background: transparent; }
         }
     </style>
+    @vite('resources/js/app.js')
 </head>
 <body>
+    <!-- Dark mode toggle button -->
+    <button id="darkModeToggle" style="position:fixed;top:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--text-2);transition:all 0.15s;z-index:1000;box-shadow:0 4px 12px rgba(15,23,42,0.1);" title="Toggle Dark Mode">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+    </button>
     <div class="panel-left">
         <div class="brand-row">
             <div class="brand-icon">

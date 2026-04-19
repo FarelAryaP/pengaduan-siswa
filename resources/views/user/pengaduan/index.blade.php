@@ -8,10 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     <style>
-        :root{--brand:#1A56DB;--brand-dark:#1341AB;--brand-light:#EBF2FF;--surface:#FFFFFF;--surface-2:#F8FAFF;--border:#E2E8F0;--text-1:#0F172A;--text-2:#475569;--text-3:#94A3B8;--radius:16px;--radius-sm:10px;}
+        :root{--brand:#1A56DB;--brand-dark:#1341AB;--brand-light:#EBF2FF;--surface:#FFFFFF;--surface-2:#F8FAFF;--border:#E2E8F0;--text-1:#0F172A;--text-2:#475569;--text-3:#94A3B8;--radius:16px;--radius-sm:10px;--bg-body:#F4F7FF;--pending-bg:#FFFBEB;--pending-text:#B45309;--proses-bg:#EFF6FF;--proses-text:#1D4ED8;--selesai-bg:#F0FDF4;--selesai-text:#15803D;--danger-bg:#FEF2F2;--danger-text:#DC2626;--danger-border:#FECACA;--danger:#DC2626;}
+        [data-theme="dark"]{--brand:#60A5FA;--brand-dark:#3B82F6;--brand-light:#1E3A8A;--surface:#1E293B;--surface-2:#0F172A;--border:#334155;--text-1:#F1F5F9;--text-2:#CBD5E1;--text-3:#64748B;--bg-body:#0F172A;--pending-bg:#422006;--pending-text:#FCD34D;--proses-bg:#1E3A8A;--proses-text:#93C5FD;--selesai-bg:#064E3B;--selesai-text:#6EE7B7;--danger-bg:#7F1D1D;--danger-text:#FCA5A5;--danger-border:#991B1B;--danger:#F87171;}
         *{box-sizing:border-box;margin:0;padding:0;}
-        body{font-family:'DM Sans',sans-serif;background:#F4F7FF;color:var(--text-1);min-height:100vh;}
-        nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);}
+        body{font-family:'DM Sans',sans-serif;background:var(--bg-body);color:var(--text-1);min-height:100vh;transition:background 0.3s,color 0.3s;}
+        nav{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);transition:background 0.3s;}
         .nav-inner{max-width:1100px;margin:0 auto;padding:0 1.5rem;height:62px;display:flex;align-items:center;justify-content:space-between;}
         .brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
         .brand-icon{width:36px;height:36px;background:var(--brand);border-radius:10px;display:grid;place-items:center;}
@@ -23,7 +24,9 @@
         .btn-nav:hover{background:var(--brand-dark);}
         .user-area{display:flex;align-items:center;gap:12px;}
         .avatar{width:34px;height:34px;border-radius:50%;background:var(--brand-light);display:grid;place-items:center;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--brand);}
-        .btn-logout{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;color:#64748B;cursor:pointer;display:flex;align-items:center;gap:6px;}
+        .btn-logout{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:6px;}
+        .btn-dark-toggle{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--text-2);transition:all 0.15s;}
+        .btn-dark-toggle:hover{background:var(--surface-2);}
         main{max-width:1100px;margin:0 auto;padding:2.5rem 1.5rem;}
 
         /* Page header */
@@ -43,8 +46,8 @@
         /* Alert */
         .alert{border-radius:10px;padding:12px 16px;font-size:14px;margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;}
         .alert svg{width:16px;height:16px;flex-shrink:0;}
-        .alert-success{background:#F0FDF4;border:1px solid #BBF7D0;color:#15803D;}
-        .alert-error{background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;}
+        .alert-success{background:var(--selesai-bg);border:1px solid var(--selesai-border);color:var(--selesai-text);}
+        .alert-error{background:var(--danger-bg);border:1px solid var(--danger-border);color:var(--danger-text);}
 
         /* Cards */
         .cards-list{display:flex;flex-direction:column;gap:14px;}
@@ -58,11 +61,11 @@
         .card-row1{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
         .card-title{font-size:16px;font-weight:600;color:var(--text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .status-badge{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;flex-shrink:0;}
-        .badge-pending{background:#FFFBEB;color:#B45309;}
-        .badge-proses{background:#EFF6FF;color:#1D4ED8;}
-        .badge-selesai{background:#F0FDF4;color:#15803D;}
+        .badge-pending{background:var(--pending-bg);color:var(--pending-text);}
+        .badge-proses{background:var(--proses-bg);color:var(--proses-text);}
+        .badge-selesai{background:var(--selesai-bg);color:var(--selesai-text);}
         /* Unread message badge */
-        .msg-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:700;background:#EF4444;color:#fff;flex-shrink:0;animation:badge-pop .2s ease-out;}
+        .msg-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:700;background:var(--danger);color:#fff;flex-shrink:0;animation:badge-pop .2s ease-out;}
         @keyframes badge-pop{0%{transform:scale(.8);opacity:0;}100%{transform:scale(1);opacity:1;}}
         .msg-badge svg{width:11px;height:11px;}
         /* Has message indicator (read) */
@@ -72,13 +75,13 @@
         .card-meta{display:flex;align-items:center;gap:16px;}
         .meta-item{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--text-3);}
         .meta-item svg{width:13px;height:13px;}
-        .card-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:.75rem 1.5rem;border-top:1px solid var(--border);background:#FAFBFF;}
+        .card-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:.75rem 1.5rem;border-top:1px solid var(--border);background:var(--surface-2);}
         .btn-detail{padding:7px 16px;border-radius:8px;background:var(--brand-light);color:var(--brand);font-size:13.5px;font-weight:500;text-decoration:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
-        .btn-detail:hover{background:#DBEAFE;}
+        .btn-detail:hover{background:var(--brand-light);opacity:0.8;}
         .btn-detail.has-unread{background:var(--brand);color:#fff;}
         .btn-detail.has-unread:hover{background:var(--brand-dark);}
-        .btn-delete{padding:7px 16px;border-radius:8px;background:#FEF2F2;color:#DC2626;font-size:13.5px;font-weight:500;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
-        .btn-delete:hover{background:#FEE2E2;}
+        .btn-delete{padding:7px 16px;border-radius:8px;background:var(--danger-bg);color:var(--danger-text);font-size:13.5px;font-weight:500;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
+        .btn-delete:hover{background:var(--danger-bg);opacity:0.8;}
 
         /* Empty state */
         .empty-state{text-align:center;padding:5rem 2rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);}
@@ -90,6 +93,7 @@
 
         @media(max-width:768px){.stats-row{grid-template-columns:1fr 1fr;}.nav-links{display:none;}.page-header{flex-direction:column;align-items:flex-start;gap:12px;}}
     </style>
+    @vite('resources/js/app.js')
 </head>
 <body>
 <nav>
@@ -107,6 +111,9 @@
             </a>
         </div>
         <div class="user-area">
+            <button id="darkModeToggle" class="btn-dark-toggle" title="Toggle Dark Mode">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            </button>
             <div class="avatar">{{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->username, 0, 1)) }}</div>
             <span style="font-size:14px;font-weight:500;">{{ Auth::user()->nama ?? Auth::user()->username }}</span>
             <form action="{{ route('logout') }}" method="POST" style="margin:0;">
@@ -134,20 +141,20 @@
 
     <div class="stats-row">
         <div class="stat-chip">
-            <div class="stat-chip-icon" style="background:#EBF2FF;"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#1A56DB" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586l5.707 5.707V19a2 2 0 01-2 2z"/></svg></div>
-            <div><div class="stat-chip-num" style="color:#1A56DB;">{{ $pengaduanList->count() }}</div><div class="stat-chip-label">Total</div></div>
+            <div class="stat-chip-icon" style="background:var(--brand-light);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--brand)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586l5.707 5.707V19a2 2 0 01-2 2z"/></svg></div>
+            <div><div class="stat-chip-num" style="color:var(--brand);">{{ $pengaduanList->count() }}</div><div class="stat-chip-label">Total</div></div>
         </div>
         <div class="stat-chip">
-            <div class="stat-chip-icon" style="background:#FFFBEB;"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#D97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-            <div><div class="stat-chip-num" style="color:#D97706;">{{ $pengaduanList->where('status','pending')->count() }}</div><div class="stat-chip-label">Pending</div></div>
+            <div class="stat-chip-icon" style="background:var(--pending-bg);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--pending-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+            <div><div class="stat-chip-num" style="color:var(--pending-text);">{{ $pengaduanList->where('status','pending')->count() }}</div><div class="stat-chip-label">Pending</div></div>
         </div>
         <div class="stat-chip">
-            <div class="stat-chip-icon" style="background:#EFF6FF;"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#3B82F6" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9"/></svg></div>
-            <div><div class="stat-chip-num" style="color:#3B82F6;">{{ $pengaduanList->where('status','proses')->count() }}</div><div class="stat-chip-label">Diproses</div></div>
+            <div class="stat-chip-icon" style="background:var(--proses-bg);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--proses-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9"/></svg></div>
+            <div><div class="stat-chip-num" style="color:var(--proses-text);">{{ $pengaduanList->where('status','proses')->count() }}</div><div class="stat-chip-label">Diproses</div></div>
         </div>
         <div class="stat-chip">
-            <div class="stat-chip-icon" style="background:#F0FDF4;"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#059669" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-            <div><div class="stat-chip-num" style="color:#059669;">{{ $pengaduanList->where('status','selesai')->count() }}</div><div class="stat-chip-label">Selesai</div></div>
+            <div class="stat-chip-icon" style="background:var(--selesai-bg);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--selesai-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+            <div><div class="stat-chip-num" style="color:var(--selesai-text);">{{ $pengaduanList->where('status','selesai')->count() }}</div><div class="stat-chip-label">Selesai</div></div>
         </div>
     </div>
 

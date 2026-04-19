@@ -8,12 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     <style>
-        :root { --brand:#1A56DB;--brand-dark:#1341AB;--brand-light:#EBF2FF;--surface:#FFFFFF;--surface-2:#F8FAFF;--border:#E2E8F0;--text-1:#0F172A;--text-2:#475569;--text-3:#94A3B8;--radius:16px;--radius-sm:10px; }
+        :root { --brand:#1A56DB;--brand-dark:#1341AB;--brand-light:#EBF2FF;--surface:#FFFFFF;--surface-2:#F8FAFF;--border:#E2E8F0;--text-1:#0F172A;--text-2:#475569;--text-3:#94A3B8;--radius:16px;--radius-sm:10px;--bg-body:#F4F7FF;--sidebar-bg:#0F172A;--pending-bg:#FFFBEB;--pending-text:#B45309;--proses-bg:#EFF6FF;--proses-text:#1D4ED8;--selesai-bg:#F0FDF4;--selesai-text:#15803D;--users-bg:#F5F3FF;--users-text:#7C3AED; }
+        [data-theme="dark"] { --brand:#60A5FA;--brand-dark:#3B82F6;--brand-light:#1E3A8A;--surface:#1E293B;--surface-2:#0F172A;--border:#334155;--text-1:#F1F5F9;--text-2:#CBD5E1;--text-3:#64748B;--bg-body:#0F172A;--sidebar-bg:#020617;--pending-bg:#422006;--pending-text:#FCD34D;--proses-bg:#1E3A8A;--proses-text:#93C5FD;--selesai-bg:#064E3B;--selesai-text:#6EE7B7;--users-bg:#2E1065;--users-text:#C4B5FD; }
         * { box-sizing:border-box;margin:0;padding:0; }
-        body { font-family:'DM Sans',sans-serif;background:#F4F7FF;color:var(--text-1);min-height:100vh;display:flex;flex-direction:column; }
+        body { font-family:'DM Sans',sans-serif;background:var(--bg-body);color:var(--text-1);min-height:100vh;display:flex;flex-direction:column;transition:background 0.3s,color 0.3s; }
         /* Sidebar */
         .layout { display:grid;grid-template-columns:240px 1fr;min-height:100vh; }
-        .sidebar { background:#0F172A;display:flex;flex-direction:column;padding:0; position:sticky;top:0;height:100vh;overflow-y:auto; }
+        .sidebar { background:var(--sidebar-bg);display:flex;flex-direction:column;padding:0; position:sticky;top:0;height:100vh;overflow-y:auto;transition:background 0.3s; }
         .sidebar-brand { padding:1.25rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:10px; }
         .sidebar-brand-icon { width:34px;height:34px;background:var(--brand);border-radius:9px;display:grid;place-items:center; }
         .sidebar-brand-name { font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff;letter-spacing:-0.2px; }
@@ -34,9 +35,11 @@
         .btn-sidebar-logout:hover { background:rgba(220,38,38,0.2);color:#FCA5A5; }
         /* Main content */
         .main-content { overflow:auto; }
-        .topbar { background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between; }
+        .topbar { background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;transition:background 0.3s; }
         .topbar-title { font-family:'Sora',sans-serif;font-size:17px;font-weight:600;color:var(--text-1);letter-spacing:-0.3px; }
         .topbar-right { display:flex;align-items:center;gap:12px; }
+        .btn-dark-toggle { width:34px;height:34px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--text-2);transition:all 0.15s; }
+        .btn-dark-toggle:hover { background:var(--surface-2); }
         .topbar-date { font-size:13px;color:var(--text-3); }
         .badge-petugas { padding:4px 10px;border-radius:20px;background:var(--brand-light);color:var(--brand);font-size:12px;font-weight:600; }
         .content { padding:2rem; }
@@ -64,13 +67,14 @@
         .td-user { color:var(--text-2);font-size:13px; }
         .td-date { color:var(--text-3);font-size:13px; }
         .status-chip { padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500; }
-        .chip-pending { background:#FFFBEB;color:#B45309; }
-        .chip-proses { background:#EFF6FF;color:#1D4ED8; }
-        .chip-selesai { background:#F0FDF4;color:#15803D; }
+        .chip-pending { background:var(--pending-bg);color:var(--pending-text); }
+        .chip-proses { background:var(--proses-bg);color:var(--proses-text); }
+        .chip-selesai { background:var(--selesai-bg);color:var(--selesai-text); }
         .btn-sm { padding:5px 12px;border-radius:7px;font-size:12.5px;font-weight:500;text-decoration:none;background:var(--brand-light);color:var(--brand);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.15s; }
         .btn-sm:hover { background:#DBEAFE; }
         @media(max-width:900px) { .layout{grid-template-columns:1fr;} .sidebar{display:none;} .stats-grid{grid-template-columns:repeat(2,1fr);} }
     </style>
+    @vite('resources/js/app.js')
 </head>
 <body>
     <div class="layout">
@@ -115,6 +119,9 @@
             <div class="topbar">
                 <span class="topbar-title">Dashboard Petugas</span>
                 <div class="topbar-right">
+                    <button id="darkModeToggle" class="btn-dark-toggle" title="Toggle Dark Mode">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </button>
                     <span class="topbar-date">{{ now()->translatedFormat('l, d F Y') }}</span>
                     <span class="badge-petugas">Petugas</span>
                 </div>
@@ -124,37 +131,37 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-top">
-                            <div class="stat-icon" style="background:#EBF2FF;"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#1A56DB" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586l5.707 5.707V19a2 2 0 01-2 2z"/></svg></div>
+                            <div class="stat-icon" style="background:var(--brand-light);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--brand)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586l5.707 5.707V19a2 2 0 01-2 2z"/></svg></div>
                         </div>
-                        <div class="stat-num" style="color:#1A56DB;">{{ $stats['total_pengaduan'] }}</div>
+                        <div class="stat-num" style="color:var(--brand);">{{ $stats['total_pengaduan'] }}</div>
                         <div class="stat-label">Total Pengaduan</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-top">
-                            <div class="stat-icon" style="background:#FFFBEB;"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#D97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                            <div class="stat-icon" style="background:var(--pending-bg);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--pending-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
                         </div>
-                        <div class="stat-num" style="color:#D97706;">{{ $stats['pending'] }}</div>
+                        <div class="stat-num" style="color:var(--pending-text);">{{ $stats['pending'] }}</div>
                         <div class="stat-label">Pending</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-top">
-                            <div class="stat-icon" style="background:#EFF6FF;"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#3B82F6" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9"/></svg></div>
+                            <div class="stat-icon" style="background:var(--proses-bg);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--proses-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9"/></svg></div>
                         </div>
-                        <div class="stat-num" style="color:#3B82F6;">{{ $stats['proses'] }}</div>
+                        <div class="stat-num" style="color:var(--proses-text);">{{ $stats['proses'] }}</div>
                         <div class="stat-label">Dalam Proses</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-top">
-                            <div class="stat-icon" style="background:#F0FDF4;"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#059669" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                            <div class="stat-icon" style="background:var(--selesai-bg);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--selesai-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
                         </div>
-                        <div class="stat-num" style="color:#059669;">{{ $stats['selesai'] }}</div>
+                        <div class="stat-num" style="color:var(--selesai-text);">{{ $stats['selesai'] }}</div>
                         <div class="stat-label">Selesai</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-top">
-                            <div class="stat-icon" style="background:#F5F3FF;"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#7C3AED" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
+                            <div class="stat-icon" style="background:var(--users-bg);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--users-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
                         </div>
-                        <div class="stat-num" style="color:#7C3AED;">{{ $stats['total_users'] }}</div>
+                        <div class="stat-num" style="color:var(--users-text);">{{ $stats['total_users'] }}</div>
                         <div class="stat-label">Total Siswa</div>
                     </div>
                 </div>

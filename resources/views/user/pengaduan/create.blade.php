@@ -12,11 +12,21 @@
             --brand: #1A56DB; --brand-dark: #1341AB; --brand-light: #EBF2FF;
             --surface: #FFFFFF; --surface-2: #F8FAFF; --border: #E2E8F0;
             --text-1: #0F172A; --text-2: #475569; --text-3: #94A3B8;
-            --radius: 16px; --radius-sm: 10px;
+            --radius: 16px; --radius-sm: 10px; --bg-body: #F4F7FF;
+            --danger-bg: #FEF2F2; --danger-text: #DC2626; --danger-border: #FECACA;
+            --info-bg: #F0F7FF; --info-border: #BFDBFE; --info-text: #1D4ED8;
+        }
+        [data-theme="dark"] {
+            --brand: #60A5FA; --brand-dark: #3B82F6; --brand-light: #1E3A8A;
+            --surface: #1E293B; --surface-2: #0F172A; --border: #334155;
+            --text-1: #F1F5F9; --text-2: #CBD5E1; --text-3: #64748B;
+            --bg-body: #0F172A;
+            --danger-bg: #7F1D1D; --danger-text: #FCA5A5; --danger-border: #991B1B;
+            --info-bg: #1E3A8A; --info-border: #1E40AF; --info-text: #93C5FD;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; background: #F4F7FF; color: var(--text-1); min-height: 100vh; }
-        nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg-body); color: var(--text-1); min-height: 100vh; transition: background 0.3s, color 0.3s; }
+        nav { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); transition: background 0.3s; }
         .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 62px; display: flex; align-items: center; justify-content: space-between; }
         .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .brand-icon { width: 36px; height: 36px; background: var(--brand); border-radius: 10px; display: grid; place-items: center; }
@@ -27,7 +37,9 @@
         .btn-nav { padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; background: var(--brand); color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; margin-left: 8px; border: none; font-family: 'DM Sans', sans-serif; cursor: pointer; }
         .user-area { display: flex; align-items: center; gap: 12px; }
         .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--brand-light); display: grid; place-items: center; font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; color: var(--brand); }
-        .btn-logout { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; color: #64748B; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .btn-logout { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--surface); font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; color: var(--text-2); cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .btn-dark-toggle { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; display: grid; place-items: center; color: var(--text-2); transition: all 0.15s; }
+        .btn-dark-toggle:hover { background: var(--surface-2); }
         main { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
         /* Breadcrumb */
         .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--text-3); margin-bottom: 1.5rem; }
@@ -69,7 +81,7 @@
         }
         .upload-zone:hover, .upload-zone.dragover { border-color: var(--brand); background: var(--brand-light); }
         .upload-placeholder { padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
-        .upload-icon { width: 44px; height: 44px; background: #fff; border: 1.5px solid var(--border); border-radius: 12px; display: grid; place-items: center; }
+        .upload-icon { width: 44px; height: 44px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; display: grid; place-items: center; }
         .upload-icon svg { width: 20px; height: 20px; color: var(--text-3); }
         .upload-text { font-size: 14px; font-weight: 500; color: var(--text-1); }
         .upload-text span { color: var(--brand); }
@@ -78,22 +90,23 @@
         /* Divider */
         .form-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
         /* Info box */
-        .info-box { background: #F0F7FF; border: 1px solid #BFDBFE; border-radius: var(--radius-sm); padding: 1rem 1.25rem; display: flex; gap: 12px; margin-bottom: 1.5rem; }
+        .info-box { background: var(--info-bg); border: 1px solid var(--info-border); border-radius: var(--radius-sm); padding: 1rem 1.25rem; display: flex; gap: 12px; margin-bottom: 1.5rem; }
         .info-box svg { width: 18px; height: 18px; color: var(--brand); flex-shrink: 0; margin-top: 1px; }
         .info-box ul { padding-left: 16px; }
-        .info-box li { font-size: 13.5px; color: #1D4ED8; line-height: 1.6; }
+        .info-box li { font-size: 13.5px; color: var(--info-text); line-height: 1.6; }
         /* Buttons */
         .form-actions { display: flex; gap: 12px; align-items: center; }
         .btn-submit { flex: 1; height: 50px; background: var(--brand); color: #fff; border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s, transform 0.1s; }
         .btn-submit:hover { background: var(--brand-dark); }
         .btn-submit:active { transform: scale(0.99); }
         .btn-cancel { padding: 0 24px; height: 50px; background: var(--surface-2); color: var(--text-2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.15s; }
-        .btn-cancel:hover { border-color: #CBD5E1; background: #EEF2FF; }
+        .btn-cancel:hover { border-color: var(--border); background: var(--surface-2); opacity: 0.8; }
         /* Alert */
-        .alert-error { background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C; border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13.5px; margin-bottom: 1.5rem; }
+        .alert-error { background: var(--danger-bg); border: 1px solid var(--danger-border); color: var(--danger-text); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13.5px; margin-bottom: 1.5rem; }
         .alert-error ul { padding-left: 16px; }
         @media (max-width: 768px) { .nav-links { display: none; } main { padding: 2rem 1rem; } .form-body { padding: 1.25rem; } .form-card-header { padding: 1.25rem; } }
     </style>
+    @vite('resources/js/app.js')
 </head>
 <body>
     <nav>
@@ -107,6 +120,9 @@
                 <a href="{{ route('user.pengaduan.index') }}" class="nav-link">Pengaduan Saya</a>
             </div>
             <div class="user-area">
+                <button id="darkModeToggle" class="btn-dark-toggle" title="Toggle Dark Mode">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
                 <div class="avatar">{{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->username, 0, 1)) }}</div>
                 <form action="{{ route('logout') }}" method="POST" style="margin:0;">
                     @csrf

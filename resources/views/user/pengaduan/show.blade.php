@@ -12,13 +12,31 @@
             --brand:#1A56DB; --brand-dark:#1341AB; --brand-light:#EBF2FF;
             --surface:#FFFFFF; --surface-2:#F8FAFF; --border:#E2E8F0;
             --text-1:#0F172A; --text-2:#475569; --text-3:#94A3B8;
-            --radius:16px; --radius-sm:10px;
+            --radius:16px; --radius-sm:10px; --bg-body:#F4F7FF;
+            --pending-bg:#FFFBEB; --pending-text:#B45309; --pending-border:#FDE68A;
+            --proses-bg:#EFF6FF; --proses-text:#1D4ED8; --proses-border:#BFDBFE;
+            --selesai-bg:#F0FDF4; --selesai-text:#15803D; --selesai-border:#BBF7D0;
+            --bubble-user-bg:#EEF2FF; --bubble-user-text:#0F172A;
+            --danger-bg:#FEF2F2; --danger-text:#DC2626; --danger-border:#FECACA;
+            --danger:#DC2626;
+        }
+        [data-theme="dark"] {
+            --brand:#60A5FA; --brand-dark:#3B82F6; --brand-light:#1E3A8A;
+            --surface:#1E293B; --surface-2:#0F172A; --border:#334155;
+            --text-1:#F1F5F9; --text-2:#CBD5E1; --text-3:#64748B;
+            --bg-body:#0F172A;
+            --pending-bg:#422006; --pending-text:#FCD34D; --pending-border:#78350F;
+            --proses-bg:#1E3A8A; --proses-text:#93C5FD; --proses-border:#1E40AF;
+            --selesai-bg:#064E3B; --selesai-text:#6EE7B7; --selesai-border:#065F46;
+            --bubble-user-bg:#1E3A8A; --bubble-user-text:#E0E7FF;
+            --danger-bg:#7F1D1D; --danger-text:#FCA5A5; --danger-border:#991B1B;
+            --danger:#F87171;
         }
         *{box-sizing:border-box;margin:0;padding:0;}
-        body{font-family:'DM Sans',sans-serif;background:#F4F7FF;color:var(--text-1);min-height:100vh;}
+        body{font-family:'DM Sans',sans-serif;background:var(--bg-body);color:var(--text-1);min-height:100vh;transition:background 0.3s,color 0.3s;}
 
         /* ── Nav ── */
-        nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);}
+        nav{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);transition:background 0.3s;}
         .nav-inner{max-width:1100px;margin:0 auto;padding:0 1.5rem;height:62px;display:flex;align-items:center;justify-content:space-between;}
         .brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
         .brand-icon{width:36px;height:36px;background:var(--brand);border-radius:10px;display:grid;place-items:center;}
@@ -30,7 +48,9 @@
         .btn-nav:hover{background:var(--brand-dark);}
         .user-area{display:flex;align-items:center;gap:12px;}
         .avatar{width:34px;height:34px;border-radius:50%;background:var(--brand-light);display:grid;place-items:center;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--brand);}
-        .btn-logout{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;color:#64748B;cursor:pointer;display:flex;align-items:center;gap:6px;}
+        .btn-logout{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:6px;}
+        .btn-dark-toggle{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--text-2);transition:all 0.15s;}
+        .btn-dark-toggle:hover{background:var(--surface-2);}
 
         /* ── Main ── */
         main{max-width:800px;margin:0 auto;padding:2.5rem 1.5rem 4rem;}
@@ -43,8 +63,8 @@
         /* ── Alert ── */
         .alert{border-radius:10px;padding:12px 16px;font-size:14px;margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;}
         .alert svg{width:16px;height:16px;flex-shrink:0;}
-        .alert-success{background:#F0FDF4;border:1px solid #BBF7D0;color:#15803D;}
-        .alert-error{background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;}
+        .alert-success{background:var(--selesai-bg);border:1px solid var(--selesai-border);color:var(--selesai-text);}
+        .alert-error{background:var(--danger-bg);border:1px solid var(--danger-border);color:var(--danger-text);}
 
         /* ── Cards ── */
         .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.25rem;}
@@ -66,14 +86,14 @@
 
         /* ── Status badge ── */
         .status-pill{padding:5px 13px;border-radius:20px;font-size:13px;font-weight:600;flex-shrink:0;}
-        .pill-pending{background:#FFFBEB;color:#B45309;border:1px solid #FDE68A;}
-        .pill-proses{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;}
-        .pill-selesai{background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;}
+        .pill-pending{background:var(--pending-bg);color:var(--pending-text);border:1px solid var(--pending-border);}
+        .pill-proses{background:var(--proses-bg);color:var(--proses-text);border:1px solid var(--proses-border);}
+        .pill-selesai{background:var(--selesai-bg);color:var(--selesai-text);border:1px solid var(--selesai-border);}
 
         /* ── Progress track ── */
         .progress-track{padding:1.25rem 1.5rem;border-top:1px solid var(--border);display:flex;align-items:center;}
         .prog-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;}
-        .prog-circle{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--border);background:#fff;}
+        .prog-circle{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--border);background:var(--surface);}
         .prog-circle.done{background:var(--brand);border-color:var(--brand);}
         .prog-circle.active{background:var(--brand-light);border-color:var(--brand);}
         .prog-circle svg{width:14px;height:14px;}
@@ -83,7 +103,7 @@
         .prog-line.done{background:var(--brand);}
 
         /* ── Unread badge ── */
-        .unread-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#EF4444;color:#fff;font-size:11px;font-weight:700;animation:pulse-badge .8s ease-in-out infinite alternate;}
+        .unread-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--danger);color:#fff;font-size:11px;font-weight:700;animation:pulse-badge .8s ease-in-out infinite alternate;}
         @keyframes pulse-badge{from{opacity:1;}to{opacity:.7;}}
 
         /* ── Petugas notice banner ── */
@@ -106,8 +126,8 @@
         .msg-bubble-wrap.from-user{flex-direction:row-reverse;}
 
         .bubble-avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:'Sora',sans-serif;font-size:11px;font-weight:700;flex-shrink:0;margin-bottom:4px;}
-        .ba-petugas{background:#1A56DB;color:#fff;}
-        .ba-user{background:#E2E8F0;color:#475569;}
+        .ba-petugas{background:var(--brand);color:#fff;}
+        .ba-user{background:var(--surface-2);color:var(--text-2);}
 
         .bubble-content{max-width:75%;}
         .bubble-name{font-size:11.5px;font-weight:600;color:var(--text-3);margin-bottom:4px;}
@@ -117,13 +137,13 @@
         /* Petugas: biru */
         .bubble-petugas{background:var(--brand);color:#fff;border-bottom-left-radius:4px;}
         /* User: abu kanan */
-        .bubble-user{background:#EEF2FF;color:var(--text-1);border-bottom-right-radius:4px;}
+        .bubble-user{background:var(--bubble-user-bg);color:var(--bubble-user-text);border-bottom-right-radius:4px;}
 
         /* New badge on unread petugas message */
         .bubble-new{position:relative;}
         .bubble-new::after{
             content:'Baru';position:absolute;top:-8px;right:-4px;
-            background:#EF4444;color:#fff;font-size:10px;font-weight:700;
+            background:var(--danger);color:#fff;font-size:10px;font-weight:700;
             padding:1px 7px;border-radius:10px;white-space:nowrap;
         }
 
@@ -133,7 +153,7 @@
         /* Input area */
         .msg-input-area{padding:1rem 1.5rem;border-top:1px solid var(--border);background:var(--surface-2);}
         .msg-form{display:flex;gap:10px;align-items:flex-end;}
-        .msg-textarea{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-1);background:#fff;resize:none;outline:none;min-height:44px;max-height:140px;transition:border-color .15s,box-shadow .15s;line-height:1.5;}
+        .msg-textarea{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-1);background:var(--surface);resize:none;outline:none;min-height:44px;max-height:140px;transition:border-color .15s,box-shadow .15s;line-height:1.5;}
         .msg-textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
         .msg-textarea::placeholder{color:var(--text-3);}
         .btn-send{width:44px;height:44px;border-radius:12px;background:var(--brand);border:none;cursor:pointer;display:grid;place-items:center;color:#fff;flex-shrink:0;transition:background .15s,transform .1s;}
@@ -145,9 +165,9 @@
         /* ── Action buttons ── */
         .action-bar{display:flex;gap:12px;flex-wrap:wrap;margin-top:1.25rem;}
         .btn-back{padding:11px 20px;border-radius:var(--radius-sm);background:var(--surface-2);color:var(--text-2);border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:7px;transition:all .15s;}
-        .btn-back:hover{background:#EEF2FF;}
-        .btn-delete{padding:11px 20px;border-radius:var(--radius-sm);background:#FEF2F2;color:#DC2626;border:1.5px solid #FECACA;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .15s;}
-        .btn-delete:hover{background:#FEE2E2;}
+        .btn-back:hover{background:var(--surface-2);opacity:0.8;}
+        .btn-delete{padding:11px 20px;border-radius:var(--radius-sm);background:var(--danger-bg);color:var(--danger-text);border:1.5px solid var(--danger-border);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .15s;}
+        .btn-delete:hover{background:var(--danger-bg);opacity:0.8;}
 
         /* ── Lightbox ── */
         .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;padding:2rem;}
@@ -157,6 +177,7 @@
 
         @media(max-width:768px){.nav-links{display:none;}main{padding:2rem 1rem;}.msg-thread{max-height:320px;}}
     </style>
+    @vite('resources/js/app.js')
 </head>
 <body>
 
@@ -176,6 +197,9 @@
             </a>
         </div>
         <div class="user-area">
+            <button id="darkModeToggle" class="btn-dark-toggle" title="Toggle Dark Mode">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            </button>
             <div class="avatar">{{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->username, 0, 1)) }}</div>
             <span style="font-size:14px;font-weight:500;">{{ Auth::user()->nama ?? Auth::user()->username }}</span>
             <form action="{{ route('logout') }}" method="POST" style="margin:0;">

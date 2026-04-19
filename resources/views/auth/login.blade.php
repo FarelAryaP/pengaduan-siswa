@@ -23,14 +23,34 @@
             --radius: 16px;
             --radius-sm: 10px;
             --shadow: 0 4px 24px rgba(15,23,42,0.08), 0 1px 4px rgba(15,23,42,0.04);
+            --bg-body: #F0F4FF;
+            --danger-bg: #FEF2F2; --danger-text: #B91C1C; --danger-border: #FECACA;
+            --success-bg: #F0FDF4; --success-text: #15803D; --success-border: #BBF7D0;
+        }
+        [data-theme="dark"] {
+            --brand: #60A5FA;
+            --brand-dark: #3B82F6;
+            --brand-light: #1E3A8A;
+            --surface: #1E293B;
+            --surface-2: #0F172A;
+            --border: #334155;
+            --text-1: #F1F5F9;
+            --text-2: #CBD5E1;
+            --text-3: #64748B;
+            --success: #34D399;
+            --danger: #F87171;
+            --bg-body: #0F172A;
+            --danger-bg: #7F1D1D; --danger-text: #FCA5A5; --danger-border: #991B1B;
+            --success-bg: #064E3B; --success-text: #6EE7B7; --success-border: #065F46;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'DM Sans', sans-serif;
-            background: #F0F4FF;
+            background: var(--bg-body);
             min-height: 100vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
+            transition: background 0.3s;
         }
         /* Left panel */
         .panel-left {
@@ -132,6 +152,8 @@
             align-items: center;
             justify-content: center;
             padding: 3rem;
+            background: var(--bg-body);
+            transition: background 0.3s;
         }
         .form-card {
             width: 100%;
@@ -153,9 +175,9 @@
             color: var(--text-2);
         }
         .alert-error {
-            background: #FEF2F2;
-            border: 1px solid #FECACA;
-            color: #B91C1C;
+            background: var(--danger-bg);
+            border: 1px solid var(--danger-border);
+            color: var(--danger-text);
             border-radius: var(--radius-sm);
             padding: 12px 16px;
             font-size: 14px;
@@ -166,9 +188,9 @@
         }
         .alert-error svg { flex-shrink: 0; width: 16px; height: 16px; }
         .alert-success {
-            background: #F0FDF4;
-            border: 1px solid #BBF7D0;
-            color: #15803D;
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
             border-radius: var(--radius-sm);
             padding: 12px 16px;
             font-size: 14px;
@@ -269,8 +291,13 @@
             .panel-right { padding: 2rem 1.5rem; }
         }
     </style>
+    @vite('resources/js/app.js')
 </head>
 <body>
+    <!-- Dark mode toggle button -->
+    <button id="darkModeToggle" style="position:fixed;top:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--text-2);transition:all 0.15s;z-index:1000;box-shadow:var(--shadow);" title="Toggle Dark Mode">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+    </button>
     <!-- Left panel -->
     <div class="panel-left">
         <div class="panel-brand">

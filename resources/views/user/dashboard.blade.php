@@ -14,10 +14,26 @@
             --text-1: #0F172A; --text-2: #475569; --text-3: #94A3B8;
             --success: #059669; --warning: #D97706; --danger: #DC2626;
             --radius: 16px; --radius-sm: 10px;
+            --bg-body: #F4F7FF;
+            --pending-bg: #FFFBEB; --pending-text: #B45309; --pending-border: #FDE68A;
+            --proses-bg: #EFF6FF; --proses-text: #1D4ED8; --proses-border: #BFDBFE;
+            --selesai-bg: #F0FDF4; --selesai-text: #15803D; --selesai-border: #BBF7D0;
+            --bubble-user-bg: #EEF2FF;
+        }
+        [data-theme="dark"] {
+            --brand: #60A5FA; --brand-dark: #3B82F6; --brand-light: #1E3A8A;
+            --surface: #1E293B; --surface-2: #0F172A; --border: #334155;
+            --text-1: #F1F5F9; --text-2: #CBD5E1; --text-3: #64748B;
+            --success: #34D399; --warning: #FBBF24; --danger: #F87171;
+            --bg-body: #0F172A;
+            --pending-bg: #422006; --pending-text: #FCD34D; --pending-border: #78350F;
+            --proses-bg: #1E3A8A; --proses-text: #93C5FD; --proses-border: #1E40AF;
+            --selesai-bg: #064E3B; --selesai-text: #6EE7B7; --selesai-border: #065F46;
+            --bubble-user-bg: #1E3A8A;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; background: #F4F7FF; color: var(--text-1); min-height: 100vh; }
-        nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg-body); color: var(--text-1); min-height: 100vh; transition: background 0.3s, color 0.3s; }
+        nav { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); transition: background 0.3s; }
         .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 62px; display: flex; align-items: center; justify-content: space-between; }
         .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .brand-icon { width: 36px; height: 36px; background: var(--brand); border-radius: 10px; display: grid; place-items: center; }
@@ -32,8 +48,10 @@
         .user-area { display: flex; align-items: center; gap: 12px; }
         .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--brand-light); display: grid; place-items: center; font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; color: var(--brand); }
         .user-name { font-size: 14px; font-weight: 500; }
-        .btn-logout { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; color: #64748B; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
-        .btn-logout:hover { border-color: #CBD5E1; background: var(--surface-2); }
+        .btn-logout { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--surface); font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; color: var(--text-2); cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
+        .btn-logout:hover { border-color: var(--border); background: var(--surface-2); }
+        .btn-dark-toggle { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; display: grid; place-items: center; color: var(--text-2); transition: all 0.15s; }
+        .btn-dark-toggle:hover { background: var(--surface-2); }
         main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem; }
         /* Hero banner */
         .hero-banner {
@@ -60,7 +78,7 @@
         .hero-name { font-family: 'Sora', sans-serif; font-size: 28px; font-weight: 700; color: #fff; letter-spacing: -0.5px; margin-bottom: 10px; }
         .hero-desc { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 420px; }
         .hero-actions { display: flex; gap: 12px; margin-top: 1.5rem; }
-        .btn-hero-primary { padding: 10px 20px; border-radius: 10px; background: #fff; color: var(--brand); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 7px; transition: transform 0.15s; }
+        .btn-hero-primary { padding: 10px 20px; border-radius: 10px; background: var(--surface); color: var(--brand); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 7px; transition: transform 0.15s; border: 1px solid var(--border); }
         .btn-hero-primary:hover { transform: translateY(-1px); }
         .btn-hero-secondary { padding: 10px 20px; border-radius: 10px; background: rgba(255,255,255,0.12); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 7px; border: 1px solid rgba(255,255,255,0.2); transition: background 0.15s; }
         .btn-hero-secondary:hover { background: rgba(255,255,255,0.18); }
@@ -98,6 +116,7 @@
             .nav-links { display: none; }
         }
     </style>
+    @vite('resources/js/app.js')
 </head>
 <body>
     <nav>
@@ -115,6 +134,9 @@
                 </a>
             </div>
             <div class="user-area">
+                <button id="darkModeToggle" class="btn-dark-toggle" title="Toggle Dark Mode">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
                 <div class="avatar">{{ strtoupper(substr(Auth::user()->nama ?? Auth::user()->username, 0, 1)) }}</div>
                 <span class="user-name">{{ Auth::user()->nama ?? Auth::user()->username }}</span>
                 <form action="{{ route('logout') }}" method="POST" style="margin:0;">
@@ -131,7 +153,7 @@
     <main>
         <!-- Flash messages -->
         @if(session('success'))
-            <div style="background:#F0FDF4;border:1px solid #BBF7D0;color:#15803D;border-radius:10px;padding:12px 16px;margin-bottom:1.5rem;font-size:14px;display:flex;align-items:center;gap:10px;">
+            <div style="background:var(--selesai-bg);border:1px solid var(--selesai-border);color:var(--selesai-text);border-radius:10px;padding:12px 16px;margin-bottom:1.5rem;font-size:14px;display:flex;align-items:center;gap:10px;">
                 <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 {{ session('success') }}
             </div>
@@ -168,42 +190,42 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-top">
-                    <div class="stat-icon" style="background:#EBF2FF;">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="#1A56DB" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <div class="stat-icon" style="background:var(--brand-light);">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="var(--brand)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     </div>
-                    <span class="stat-badge" style="background:#EBF2FF;color:#1A56DB;">Total</span>
+                    <span class="stat-badge" style="background:var(--brand-light);color:var(--brand);">Total</span>
                 </div>
-                <div class="stat-num" style="color:#1A56DB;">{{ $stats['total'] }}</div>
+                <div class="stat-num" style="color:var(--brand);">{{ $stats['total'] }}</div>
                 <div class="stat-label">Total Pengaduan</div>
             </div>
             <div class="stat-card">
                 <div class="stat-top">
-                    <div class="stat-icon" style="background:#FFFBEB;">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="#D97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <div class="stat-icon" style="background:var(--pending-bg);">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="var(--pending-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <span class="stat-badge" style="background:#FFFBEB;color:#D97706;">Menunggu</span>
+                    <span class="stat-badge" style="background:var(--pending-bg);color:var(--pending-text);">Menunggu</span>
                 </div>
-                <div class="stat-num" style="color:#D97706;">{{ $stats['pending'] }}</div>
+                <div class="stat-num" style="color:var(--warning);">{{ $stats['pending'] }}</div>
                 <div class="stat-label">Pending</div>
             </div>
             <div class="stat-card">
                 <div class="stat-top">
-                    <div class="stat-icon" style="background:#EFF6FF;">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="#3B82F6" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    <div class="stat-icon" style="background:var(--proses-bg);">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="var(--proses-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                     </div>
-                    <span class="stat-badge" style="background:#EFF6FF;color:#3B82F6;">Diproses</span>
+                    <span class="stat-badge" style="background:var(--proses-bg);color:var(--proses-text);">Diproses</span>
                 </div>
-                <div class="stat-num" style="color:#3B82F6;">{{ $stats['proses'] }}</div>
+                <div class="stat-num" style="color:var(--proses-text);">{{ $stats['proses'] }}</div>
                 <div class="stat-label">Dalam Proses</div>
             </div>
             <div class="stat-card">
                 <div class="stat-top">
-                    <div class="stat-icon" style="background:#F0FDF4;">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="#059669" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <div class="stat-icon" style="background:var(--selesai-bg);">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="var(--selesai-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <span class="stat-badge" style="background:#F0FDF4;color:#059669;">Tuntas</span>
+                    <span class="stat-badge" style="background:var(--selesai-bg);color:var(--selesai-text);">Tuntas</span>
                 </div>
-                <div class="stat-num" style="color:#059669;">{{ $stats['selesai'] }}</div>
+                <div class="stat-num" style="color:var(--selesai-text);">{{ $stats['selesai'] }}</div>
                 <div class="stat-label">Selesai</div>
             </div>
         </div>
@@ -212,8 +234,8 @@
         <p class="section-title">Aksi Cepat</p>
         <div class="actions-grid">
             <a href="{{ route('user.pengaduan.create') }}" class="action-card">
-                <div class="action-icon" style="background:#EBF2FF;">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="#1A56DB" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                <div class="action-icon" style="background:var(--brand-light);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="var(--brand)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                 </div>
                 <div>
                     <div class="action-title">Buat Pengaduan Baru</div>
@@ -221,21 +243,21 @@
                 </div>
             </a>
             <a href="{{ route('user.pengaduan.index') }}" class="action-card">
-                <div class="action-icon" style="background:#F3F4F6;">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="#374151" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                <div class="action-icon" style="background:var(--surface-2);border:1px solid var(--border);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="var(--text-2)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                 </div>
                 <div>
                     <div class="action-title">Riwayat Pengaduan</div>
                     <div class="action-desc">Lihat semua pengaduan yang pernah kamu kirimkan</div>
                 </div>
             </a>
-            <div class="action-card" style="background:#FFFBEB;border-color:#FDE68A;cursor:default;">
-                <div class="action-icon" style="background:#FEF3C7;">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="#D97706" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="action-card" style="background:var(--pending-bg);border-color:var(--pending-border);cursor:default;">
+                <div class="action-icon" style="background:var(--pending-bg);border:1px solid var(--pending-border);">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="var(--pending-text)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div>
-                    <div class="action-title" style="color:#92400E;">Panduan Pengaduan</div>
-                    <div class="action-desc" style="color:#B45309;">Pengaduan yang jelas dan detail akan lebih cepat ditangani petugas</div>
+                    <div class="action-title" style="color:var(--pending-text);">Panduan Pengaduan</div>
+                    <div class="action-desc" style="color:var(--pending-text);opacity:0.8;">Pengaduan yang jelas dan detail akan lebih cepat ditangani petugas</div>
                 </div>
             </div>
         </div>
